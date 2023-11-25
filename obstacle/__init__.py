@@ -1,0 +1,1 @@
+from .obstacle import obstacle
