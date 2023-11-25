@@ -1,5 +1,5 @@
 class obstacle:
-	def __init__(self, beginX: int, beginY: int, endX: int, endY: int, balls: list) -> None:
+	def __init__(self, beginX: float, beginY: float, endX: int, endY: int, balls: list) -> None:
 		self.beginX = beginX
 		self.beginY = beginY
 		self.endX = endX
