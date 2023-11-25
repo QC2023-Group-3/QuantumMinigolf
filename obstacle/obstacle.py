@@ -12,8 +12,8 @@ class obstacle:
 
 	
 	def checkCollided(self):
-		for subBall in balls:
-			if beginX >= subBall.x >= endX and beginY >= subBall.y >= endY:
-				subBall.changeAngle(calcBearing(subBall.angle))
+		for subBall in self.balls:
+			if self.beginX >= subBall.x >= self.endX and self.beginY >= subBall.y >= self.endY:
+				subBall.changeAngle(self.calcBearing(subBall.angle))
 
 		
