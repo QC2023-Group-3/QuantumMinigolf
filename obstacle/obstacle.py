@@ -8,12 +8,25 @@ class obstacle:
 		self.balls = balls
 
 	def calcBearing(self, oldBearing, side):
-		return 180 - oldBearing
-
+		match side:
+			case 'N': #value entered must be 0 < x < 360
+				if oldBearing <= 90:
+					return 360 - oldBearing
+				else:
+					return 180 - oldBearing
+			case 'E': #value entered must be 0 < x < 180
+				return 180 - oldBearing
+			case 'S': #value entered must be 90 < x < 360
+				return 360 - oldBearing
+			case 'W': #value entered must be 180 < x < 360
+				if oldBearing <= 270:
+					return 540 - oldBearing
+				else:
+					return 540 - oldBearing
 	
 	def checkCollided(self):
-		for subBall in balls:
-			if beginX >= subBall.x >= endX and beginY >= subBall.y >= endY:
-				subBall.changeAngle(calcBearing(subBall.angle))
+		for subBall in self.balls:
+			if self.beginX >= subBall.x >= self.endX and self.beginY >= subBall.y >= self.endY:
+				subBall.changeAngle(self.calcBearing(subBall.angle))
 
 		
