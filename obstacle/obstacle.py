@@ -14,7 +14,7 @@ class obstacle:
 			return 'E'
 		if self.beginX <= ballX <= self.endX and ballY == self.beginY:
 			return 'S'
-		if self.beginY <= ballY <= self.endY and ballX == self.endX:
+		if self.beginY <= ballY <= self.endY and ballX == self.beginX:
 			return 'W'
 
 	def calcBearing(self, oldBearing, side):
