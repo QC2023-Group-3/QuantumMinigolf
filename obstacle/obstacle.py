@@ -39,5 +39,4 @@ class obstacle:
 		for subBall in self.balls:
 			if self.beginX >= subBall.x >= self.endX and self.beginY >= subBall.y >= self.endY:
 				subBall.changeAngle(self.calcBearing(subBall.angle, self.calcSide(subBall.x, subBall.y)))
-
 		
