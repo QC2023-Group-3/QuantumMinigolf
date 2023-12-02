@@ -7,6 +7,16 @@ class obstacle:
 
 		self.balls = balls
 
+	def calcSide(self, ballX, ballY) -> str:
+		if self.beginX <= ballX <= self.endX and ballY == self.endY:
+			return 'N'
+		if self.beginY <= ballY <= self.endY and ballX == self.endX:
+			return 'E'
+		if self.beginX <= ballX <= self.endX and ballY == self.beginY:
+			return 'S'
+		if self.beginY <= ballY <= self.endY and ballX == self.endX:
+			return 'W'
+
 	def calcBearing(self, oldBearing, side):
 		match side:
 			case 'N': #value entered must be 0 < x < 360
@@ -27,6 +37,6 @@ class obstacle:
 	def checkCollided(self):
 		for subBall in self.balls:
 			if self.beginX >= subBall.x >= self.endX and self.beginY >= subBall.y >= self.endY:
-				subBall.changeAngle(self.calcBearing(subBall.angle))
+				subBall.changeAngle(self.calcBearing(subBall.angle, self.calcSide(subBall.x, subBall.y)))
 
 		
