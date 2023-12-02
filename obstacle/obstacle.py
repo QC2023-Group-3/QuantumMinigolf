@@ -9,20 +9,21 @@ class obstacle:
 
 	def calcBearing(self, oldBearing, side):
 		match side:
-			case 'N': #value entered must be 0 < x < 360
-				if oldBearing <= 90:
-					return 360 - oldBearing
-				else:
+			case 'N': #value entered must be 90 < x < 360
+				if oldBearing <= 180:
 					return 180 - oldBearing
+				else:
+					return 540 - oldBearing
 			case 'E': #value entered must be 0 < x < 180
 				return 180 - oldBearing
 			case 'S': #value entered must be 90 < x < 360
-				return 360 - oldBearing
-			case 'W': #value entered must be 180 < x < 360
-				if oldBearing <= 270:
-					return 540 - oldBearing
+				if oldBearing <= 90:
+					return 180 - oldBearing
 				else:
 					return 540 - oldBearing
+			case 'W': #value entered must be 180 < x < 360
+				if oldBearing <= 270:
+					return 360 - oldBearing
 	
 	def checkCollided(self):
 		for subBall in self.balls:
