@@ -4,7 +4,7 @@ class subBall:
 		self.x = x
 		self.y = y
 
-		self.bearing = bearing
+		self.bearing = bearing # angle/bearing of the ball
 
 	def move(self) -> None:
 		# move the ball towards the direction of the angle (self.bearing)	
