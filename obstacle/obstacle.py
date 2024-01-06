@@ -37,6 +37,8 @@ class obstacle:
 	
 	def checkCollided(self):
 		for subBall in self.balls:
-			if self.beginX >= subBall.x >= self.endX and self.beginY >= subBall.y >= self.endY:
-				subBall.changeAngle(self.calcBearing(subBall.angle, self.calcSide(subBall.x, subBall.y)))
+			if min(self.beginX, self.endX) <= subBall.x <= max(self.beginX, self.endX) and \
+           min(self.beginY, self.endY) <= subBall.y <= max(self.beginY, self.endY):
+            subBall.changeAngle(self.calcBearing(subBall.angle, self.calcSide(subBall.x, subBall.y)))
+
 		
