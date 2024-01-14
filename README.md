@@ -1,6 +1,6 @@
 # <div align="center">Quantum Game</div>
 
-<div align="center"><i>Game logic for our Quantum Mini</i></div>
+<div align="center"><i>Game logic for our Quantum Mini Golf Game</i></div>
 
 ***
 
@@ -14,7 +14,9 @@
 
 ## Introduction
 
-Game logic for our Quantum Mini.
+> NOTE: This repository holds the game logic for our Quantum Mini Golf game. To view the mathematics behind it, visit [this repository](https://github.comQC2023-Group-3/QuantumAPI).
+
+Quantum Minigolf reinvents the traditional game of minigolf by incorporating quantum mechanics principles, featuring a golf ball with quantum behavior distinct from classical physics. Developed through sophisticated Python programming, this project serves as a simulation to demonstrate an in-depth understanding of quantum phenomena. It exemplifies the application of complex quantum concepts in a familiar setting, providing an engaging and educational tool for exploring the fundamentals of quantum mechanics.
 
 ## Contributing
 
