@@ -25,8 +25,6 @@ if __name__ == "__main__":
 	except IndexError: # Nothing in preset list
 		raise IndexError("Please add a preset in style.json")
 
-	gameBall = ball(obstacles)
-
 	WIDTH = styles["width"]
 	HEIGHT = styles["height"]
 
@@ -34,7 +32,7 @@ if __name__ == "__main__":
 
 	surface = pygame.display.set_mode((WIDTH,HEIGHT))
 
-	DURATION = 200 # Time duration of project
+	DURATION = 500 # Time duration of project
 
 	# Initial selecting direction/paddle of ball
 	selectionComplete = False # If user has made paddle selection yet
@@ -46,21 +44,18 @@ if __name__ == "__main__":
 		events = pygame.event.get()
 		for event in events:
 			if event.type == pygame.KEYDOWN:
+				print(obstacles)
 				if event.key == pygame.K_RETURN: # Finished selection
 					selectionComplete = True # Stop while loop after finishing everything
 				elif event.key == pygame.K_LEFT: # Select previous preset
-					presetNum -= 1 # Reduce preset by 1
-					if presetNum < 0:
-						presetNum = len(presetObstacles)-1 # Set to last preset, -1 because of index numbers
-
-						if presetNum < 0: # If there are no more presets
-							presetNum = 0
+					presetNum = (presetNum - 1) % len(presetObstacles)
 				elif event.key == pygame.K_RIGHT: # Select next preset
-					presetNum += 1
-					if presetNum > len(presetObstacles)-1:
-						presetNum = 0 # Reset preset number
+					presetNum = (presetNum + 1) % len(presetObstacles)
 
 		pygame.display.flip() # Refresh frame
+
+	# Create ball with desired obstacles
+	gameBall = ball(obstacles)
 
 	# Game loop
 	frame = 1
@@ -75,4 +70,3 @@ if __name__ == "__main__":
 		frame += 1
 	
 	result, winX, winY = gameBall.measure()
-
