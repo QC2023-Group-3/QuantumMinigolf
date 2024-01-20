@@ -9,6 +9,7 @@
 - [Quantum Game](#quantum-game)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Customization](#customization)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -23,6 +24,21 @@ Note that to use this repository, you must clone QuantumAPI into the same direct
 ```bash
 git clone https://github.com/QC2023-Group-3/QuantumAPI
 ```
+
+## Customization
+
+> NOTE: This is a **work in progress** meaning it is not yet complete and may not provide the most accurate information.
+
+If you want to customize styling, speed, etc, feel free to change the parameters in the `style.json` file. For information on each of these parameters, see the table below:
+
+| Parameter | Description |
+| --- | --- |
+| `scale` | The size of the screen (scale value) - Note that it multiplies the values under `defaults` |
+| `resolution` | The resolution of the game itself, the higher the value, the slower the game |
+| `duration` | The amount of frames until it checks if the ball is in the goal |
+| `colors` | The colors of the game (Obstacle is typical RGB values, whereas the ballHeatmap RGB values can only be either 1 or 0 as they are the multiplier values) |
+| `obstaclePresets` | Presets/obstacles you can initially choose from |
+| `defaults` | The default values for the game (Recommended not to change) |
 
 ## Contributing
 
