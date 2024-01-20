@@ -1,3 +1,133 @@
+import numpy as np
+from scipy.sparse import csc_matrix
+from scipy.sparse.linalg import spsolve
+import random
+
 class ball:
-	def __init__(self) -> None:
-		pass
+	def __init__(self, obstacles, L = 5,  Dy = 0.05, Dt = 0.005):
+		"""
+		L = Well of width L. Shafts from 0 to +L.
+		Dy = Spatial step size.
+		Dt = Temporal step size.
+		Nx = Number of points on the x axis. #window size (qqa)
+		Ny = Number of points on the y axis. #window size (qqa)
+		rx = Constant to simplify expressions.
+		ry = Constant to simplify expressions.
+		"""
+
+		# Initialize Parameters
+		self.L = L
+		self.Dy = Dy
+		self.Dt = Dt
+
+		self.Nx = int(L/Dy) + 1
+		self.Ny = int(L/Dy) + 1
+		self.rx = -Dt/(2j*Dy**2)
+		self.ry = -Dt/(2j*Dy**2)
+		
+		# Initial position of the center of the Gaussian wave function.
+		self.x0=L/5
+		self.y0=L/2
+
+		# Obstacles
+		self.obstacles = obstacles
+
+		self.v = np.zeros((self.Ny,self.Ny), complex) # Potential.  (Here at all positions v=0, use function to apply interactions.    wxy)
+		self.Ni = (self.Nx-2)*(self.Ny-2)  # Number of unknown factors v[i,j], i = 1,...,Nx-2, j = 1,...,Ny-2
+
+		# Matrices for the Crank-Nicolson calculus. The problem A·x[n+1] = b = M·x[n] will be solved at each time step.
+		self.A = np.zeros((self.Ni,self.Ni), complex)              # 159*159 (wxy)
+		self.M = np.zeros((self.Ni,self.Ni), complex)              # 159*159 (wxy)
+
+		# We fill the A and M matrices.
+		for k in range(self.Ni):
+
+			# k = (i-1)*(Ny-2) + (j-1)
+			i = 1 + k//(self.Ny-2)
+			j = 1 + k%(self.Ny-2)
+
+			# Main central diagonal.
+			self.A[k,k] = 1 + 2*self.rx + 2*self.ry + 1j*self.Dt/2*self.v[i,j]
+			self.M[k,k] = 1 - 2*self.rx - 2*self.ry - 1j*self.Dt/2*self.v[i,j]
+
+			if i != 1: # Lower lone diagonal.
+				self.A[k,(i-2)*(self.Ny-2)+j-1] = -self.ry
+				self.M[k,(i-2)*(self.Ny-2)+j-1] = self.ry
+
+			if i != self.Nx-2: # Upper lone diagonal.
+				self.A[k,i*(self.Ny-2)+j-1] = -self.ry
+				self.M[k,i*(self.Ny-2)+j-1] = self.ry
+
+			if j != 1: # Lower main diagonal.
+				self.A[k,k-1] = -self.rx
+				self.M[k,k-1] = self.rx
+
+			if j != self.Ny-2: # Upper main diagonal.
+				self.A[k,k+1] = -self.rx
+				self.M[k,k+1] = self.rx
+
+		self.Asp = csc_matrix(self.A) # sparse matrix, use csc_matrix() to store the non-zero elements in the matrix (wxy)
+
+		self.x = np.linspace(0, L, self.Ny-2) # Array of spatial points. (0,8,159?  wxy)
+		self.y = np.linspace(0, L, self.Ny-2) # Array of spatial points.
+		self.x, self.y = np.meshgrid(self.x, self.y)
+		#psis = [] # To store the wave function at each time step.
+
+		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
+		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
+		#psis.append(np.copy(psi)) # We store the wave function of this time step.
+		self.propagate()
+		self.takeMod()
+
+	def psi0(self, x, y, x0, y0, sigma=0.5, k=15*np.pi):
+		return np.exp(-1/2*((x-x0)**2 + (y-y0)**2)/sigma**2)*np.exp(1j*k*(x-x0))
+
+	def propagate(self):
+		psi_vect = self.psi.reshape((self.Ni)) # We adjust the shape of the array to generate the matrix b of independent terms.
+		b = np.matmul(self.M,psi_vect) # We calculate the array of independent terms.
+		psi_vect = spsolve(self.Asp,b) # Resolvemos el sistema para este paso temporal.   (Asp x = b, solve x, which equals to psi_vect.   wxy)	
+		self.psi = psi_vect.reshape((self.Nx-2,self.Ny-2)) # Recuperamos la forma del array de la función de onda.
+		for i in range (len(self.obstacles)):
+			self.psi = self.obstacles[i].checkCollided(self.psi) # We retrieve the shape of the wave function array. (??? wxy)
+
+	# We calculate the modulus of the wave function at each time step.
+	def takeMod(self):
+		re = np.real(self.psi) # Real part.
+		im = np.imag(self.psi) # Imaginary part.
+		self.mod = np.sqrt(re**2 + im**2)
+
+		return self.mod
+		#mod_psis.append(mod) # We save the calculated modulus.
+
+	#measure
+	def measure(self): # Returns bool, int, int (win, xWin, yWin)
+		# prob_density=last_mod.flatten()
+		# prob_density = prob_density/np.sum(last_mod)
+		# selected_index=np.random.choice(len(prob_density), p=prob_density)
+		# i = 1 + selected_index//(y_length-2) #x-coordinate- TBC
+		# j = 1 + selected_index%(x_length-2) #y-coordinate- TBC
+		# print(i,j)
+		mod_total = 0  # to record the total amplitude in the whole space, for normalization later.
+		win=True
+		for i in range(self.Nx-2):		
+			for j in range(self.Ny-2):	
+				mod_total = mod_total + self.mod[i,j]	
+		mod_goal = 0            
+		# calculate the total module of psi in the target area (your goal).
+		for i in range(int(1*(self.Ny-3)/10), int(9*(self.Ny-3)/10)): #here goal is default to be these sizes but its gonna be customizable soon (qqa)
+			for j in range(int(2*(self.Nx-3)/3),self.Nx-3):
+				# Self define the region of the goal, calculate the total modules of psi in it.	
+				mod_goal = mod_goal + self.mod[i,j]	
+
+		probability = mod_goal / mod_total
+		random_number = random.random()                  
+		# Compare with the random number in range (0,1)
+		if probability - random_number > 0 :		 
+			win=True
+		else :		  
+			win=False
+
+		i=0 #TBC!! - x-coordinate of selected point
+		j=0 #TBC!! - y-coordinate of selected point
+
+		return (win,i,j)
