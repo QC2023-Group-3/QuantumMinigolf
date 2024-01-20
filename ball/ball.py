@@ -4,7 +4,7 @@ from scipy.sparse.linalg import spsolve
 import random
 
 class ball:
-	def __init__(self, obstacles, L = 5,  Dy = 0.05, Dt = 0.005):
+	def __init__(self, obstacles, L = 5,  Dy = 0.05, Dt = 0.005, sigma = 0.5):
 		"""
 		L = Well of width L. Shafts from 0 to +L.
 		Dy = Spatial step size.
@@ -24,6 +24,8 @@ class ball:
 		self.Ny = int(L/Dy) + 1
 		self.rx = -Dt/(2j*Dy**2)
 		self.ry = -Dt/(2j*Dy**2)
+
+		self.sigma = sigma
 		
 		# Initial position of the center of the Gaussian wave function.
 		self.x0=L/5
@@ -76,11 +78,13 @@ class ball:
 		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
 		#psis.append(np.copy(psi)) # We store the wave function of this time step.
+
+		self.initialisePsi()
 		self.propagate()
 		self.takeMod()
 
-	def psi0(self, x, y, x0, y0, sigma=0.5, k=15*np.pi):
-		return np.exp(-1/2*((x-x0)**2 + (y-y0)**2)/sigma**2)*np.exp(1j*k*(x-x0))
+	def psi0(self, x, y, x0, y0, k=15*np.pi):
+		return np.exp(-1/2*((x-x0)**2 + (y-y0)**2)/self.sigma**2)*np.exp(1j*k*(x-x0))
 
 	def propagate(self):
 		psi_vect = self.psi.reshape((self.Ni)) # We adjust the shape of the array to generate the matrix b of independent terms.
@@ -131,3 +135,7 @@ class ball:
 		j=0 #TBC!! - y-coordinate of selected point
 
 		return (win,i,j)
+	
+	def initialisePsi(self):
+		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
+		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
