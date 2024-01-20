@@ -6,8 +6,8 @@ class obstacle:
 		self.endY = int(endY/scale)
 
 		# For drawing
-		self.left = beginX
-		self.top = beginY
+		self.left = beginX-scale
+		self.top = beginY-scale
 		self.width = abs(beginX-endX)
 		self.height = abs(beginY-endY)
 	
