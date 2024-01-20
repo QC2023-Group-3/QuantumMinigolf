@@ -6,8 +6,8 @@ class obstacle:
 		self.endY = endY
 	
 	def checkCollided(self, psi):
-		for y in range(len(psi)):
-			for x in range(len(y)):
+		for y, yVal in enumerate(psi):
+			for x in range(len(yVal)):
 				if self.beginY >= y >= self.endY and self.beginX >= x >= self.endX:
 					psi[y][x] = 0
 
