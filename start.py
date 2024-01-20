@@ -13,7 +13,7 @@ from assets.scripts.draw import *
 if __name__ == "__main__":
 	pygame.init()
 	
-	obstacles = []
+	obstacles = [obstacle(280, 0, 320, 200), obstacle(280, 400, 320, 600), obstacle(280, 250, 320, 350)] # Attempt at double slit
 
 	# Get styles
 	with open('assets/style.json') as stylesFile: styles = json.load(stylesFile)
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
 	surface = pygame.display.set_mode((WIDTH,HEIGHT))
 
-	DURATION = 100 # Time duration of project
+	DURATION = 200 # Time duration of project
 
 	# Initial selecting direction/paddle of ball
 	selectionComplete = False # If user has made paddle selection yet
@@ -41,8 +41,8 @@ if __name__ == "__main__":
 	# Game loop
 	frame = 1
 	while frame < DURATION:
-		drawObstacle(surface, obstacles) # Draw obstacles
 		drawBall(surface, gameBall, PARTICLEWIDTH)
+		drawObstacle(surface, obstacles) # Draw obstacles
 
 		gameBall.propagate()
 		gameBall.takeMod()
