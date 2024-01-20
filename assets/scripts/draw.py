@@ -28,6 +28,6 @@ def drawBall(surface, ball, particleWidth) -> None:
 	for yPos, y in enumerate(normalizedMag):
 		for xPos, x in enumerate(y):
 			currColor = int(x*255)
-			color = (i*currColor for i in COLORS["ballHeatmap"]) # Select which RGB values should be colored
+			color = tuple(i*currColor for i in COLORS["ballHeatmap"]) # Select which RGB values should be colored
 
 			pygame.draw.rect(surface, color, pygame.Rect(((xPos-(particleWidth/2)), (yPos-(particleWidth/2))), (particleWidth, particleWidth)))
