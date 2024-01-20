@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
 	surface = pygame.display.set_mode((WIDTH,HEIGHT))
 
-	DURATION = 500 # Time duration of project
+	DURATION = styles["duration"] # Time duration of project
 
 	# Initial selecting direction/paddle of ball
 	selectionComplete = False # If user has made paddle selection yet

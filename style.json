@@ -1,6 +1,7 @@
 {
 	"scale" : 1,
-	"resolution" : 2,
+	"resolution" : 0.2,
+	"duration" : 500,
 	"colors" : {
 		"obstacle" : [255, 255, 255],
 		"ballHeatmap" : [1, 1, 0]
