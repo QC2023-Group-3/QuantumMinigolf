@@ -1,15 +1,20 @@
 class obstacle:
-	def __init__(self, beginX: float, beginY: float, endX: int, endY: int) -> None:
-		self.beginX = beginX
-		self.beginY = beginY
-		self.endX = endX
-		self.endY = endY
+	def __init__(self, beginX: int, beginY: int, endX: int, endY: int, scale: int = 6) -> None:
+		self.beginX = int(beginX/scale)
+		self.beginY = int(beginY/scale)
+		self.endX = int(endX/scale)
+		self.endY = int(endY/scale)
+
+		# For drawing
+		self.left = beginX
+		self.top = beginY
+		self.width = abs(beginX-endX)
+		self.height = abs(beginY-endY)
 	
 	def checkCollided(self, psi):
-		for y, yVal in enumerate(psi):
-			for x in range(len(yVal)):
-				if self.beginY >= y >= self.endY and self.beginX >= x >= self.endX:
-					psi[y][x] = 0
+		for y in range(self.beginY, self.endY):
+			for x in range(self.beginX, self.endX):
+				psi[y][x] = 0
 
 		return psi
 		
