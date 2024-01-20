@@ -8,5 +8,5 @@ from QuantumAPI.obstacle import obstacle
 
 class QuantumMinigolf(Scene):
 	def construct(self):
-		# Construct
-		pass
+		# Define Variables
+		self.gameBall = ball()
