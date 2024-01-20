@@ -1,4 +1,5 @@
 import pygame # Game Engine
+import json # For styles
 
 # Import mathematical logic behind game
 from QuantumAPI.ball import ball
@@ -14,10 +15,18 @@ if __name__ == "__main__":
 	
 	obstacles = []
 
+	# Get styles
+	with open('assets/style.json') as stylesFile: styles = json.load(stylesFile)
+
 	# Define Variables
 	gameBall = ball(obstacles)
 
-	surface = pygame.display.set_mode((400,300))
+	WIDTH = styles["width"]
+	HEIGHT = styles["height"]
+
+	PARTICLEWIDTH = styles["particleWidth"]
+
+	surface = pygame.display.set_mode((WIDTH,HEIGHT))
 
 	DURATION = 100 # Time duration of project
 
@@ -33,7 +42,13 @@ if __name__ == "__main__":
 	frame = 1
 	while frame < DURATION:
 		drawObstacle(surface, obstacles) # Draw obstacles
+		drawBall(surface, gameBall, PARTICLEWIDTH)
+
+		gameBall.propagate()
+		gameBall.takeMod()
 
 		pygame.display.flip() # Refresh frame
 		frame += 1
+	
+	result, winX, winY = gameBall.measure()
 

@@ -1,5 +1,9 @@
 {
+	"width" : 594,
+	"height" : 594,
+	"particleWidth" : 6,
 	"colors" : {
-		"obstacle" : [255, 255, 255]
+		"obstacle" : [255, 255, 255],
+		"ballHeatmap" : [1, 1, 0]
 	}
 }
