@@ -16,7 +16,7 @@ if __name__ == "__main__":
 	obstacles = []
 
 	# Get styles
-	with open('../style.json') as stylesFile: styles = json.load(stylesFile)
+	with open('assets/style.json') as stylesFile: styles = json.load(stylesFile)
 
 	# Define Variables
 	gameBall = ball(obstacles)
