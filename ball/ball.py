@@ -99,33 +99,51 @@ class ball:
 
 		return self.mod
 
-	#measure
-	def measure(self): # Returns bool, int, int (win, xWin, yWin)
-		mod_total = 0  # to record the total amplitude in the whole space, for normalization later.
+	#Measurement code
+	global in_goal_coords
+	global outside_goal_coords
+	in_goal_coords=[]
+	outside_goal_coords=[]
+	def setGoalCoords(coords):
+		in_goal_coords=coords #in the form of (i,j)
+
+	def measure(self,Nx,Ny,mod_end):
+		mod_total = 0 # to record the total amplitude in the whole space, for normalization later.
+		mod_goal = 0 # calculate the total module of psi in the target area (your goal).
 		win=True
-		for i in range(self.Nx-2):		
-			for j in range(self.Ny-2):	
-				mod_total = mod_total + self.mod[i,j]	
-		mod_goal = 0            
-		# calculate the total module of psi in the target area (your goal).
-		for i in range(int(1*(self.Ny-3)/10), int(9*(self.Ny-3)/10)): #here goal is default to be these sizes but its gonna be customizable soon (qqa)
-			for j in range(int(2*(self.Nx-3)/3),self.Nx-3):
-				# Self define the region of the goal, calculate the total modules of psi in it.	
-				mod_goal = mod_goal + self.mod[i,j]	
 
-		probability = mod_goal / mod_total
-		random_number = random.random()                  
-		# Compare with the random number in range (0,1)
-		if probability - random_number > 0 :		 
-			win=True
-		else :		  
-			win=False
+		in_goal_prob_density=[]
+		outside_goal_prob_density=[]
+		for i in range(Nx-2):
+				for j in range(Ny-2):
+						modulus=mod_end[i,j]
+						mod_total = mod_total + modulus
+						if ((i,j) in in_goal_coords):
+							mod_goal=mod_goal+modulus
+							in_goal_prob_density.append(modulus)
+						else:
+							outside_goal_coords.append((i,j))
+							outside_goal_prob_density.apend(modulus)
+					
+		print(mod_total)
 
-		i=0 #TBC!! - x-coordinate of selected point
-		j=0 #TBC!! - y-coordinate of selected point
+		probability = mod_goal / mod_total          # The probability to win the game (?)
+		print("probability = ", probability)
+		random_number = random.random()
+		print(random_number)                        # Compare with the random number in range (0,1)
 
+		if probability - random_number > 0 :
+				win=True
+				selected_index = np.random.choice(len(in_goal_prob_density()), p=in_goal_prob_density())
+		else :
+				win=False
+				selected_index = np.random.choice(len(outside_goal_prob_density()), p=outside_goal_prob_density())
+		
+		i=selected_index[0] # x-coordinate of selected point
+		j=selected_index[1] # y-coordinate of selected point
 		return (win,i,j)
 	
 	def initialisePsi(self):
 		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
+
