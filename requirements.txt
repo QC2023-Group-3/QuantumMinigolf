@@ -1,4 +1,3 @@
-pyglet
-manim
+pygame
 numpy
 scipy
