@@ -44,7 +44,6 @@ if __name__ == "__main__":
 		events = pygame.event.get()
 		for event in events:
 			if event.type == pygame.KEYDOWN:
-				print(obstacles)
 				if event.key == pygame.K_RETURN: # Finished selection
 					selectionComplete = True # Stop while loop after finishing everything
 				elif event.key == pygame.K_LEFT: # Select previous preset
@@ -52,6 +51,7 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_RIGHT: # Select next preset
 					presetNum = (presetNum + 1) % len(presetObstacles)
 
+		surface.fill((0,0,0)) # Reset screen
 		pygame.display.flip() # Refresh frame
 
 	# Create ball with desired obstacles
@@ -66,6 +66,7 @@ if __name__ == "__main__":
 		gameBall.propagate()
 		gameBall.takeMod()
 
+		surface.fill((0,0,0)) # Reset screen
 		pygame.display.flip() # Refresh frame
 		frame += 1
 	
