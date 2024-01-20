@@ -30,4 +30,4 @@ def drawBall(surface, ball, particleWidth) -> None:
 			currColor = int(x*255)
 			color = tuple(i*currColor for i in COLORS["ballHeatmap"]) # Select which RGB values should be colored
 
-			pygame.draw.rect(surface, color, pygame.Rect(((xPos-(particleWidth/2)), (yPos-(particleWidth/2))), (particleWidth, particleWidth)))
+			pygame.draw.rect(surface, color, pygame.Rect(((xPos*particleWidth-(particleWidth/2)), (yPos*particleWidth-(particleWidth/2))), (particleWidth, particleWidth)))
