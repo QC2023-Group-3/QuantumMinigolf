@@ -38,6 +38,7 @@ if __name__ == "__main__":
 	selectionComplete = False # If user has made paddle selection yet
 
 	while not selectionComplete: # Wait for user to make paddle direction selection
+		surface.fill((0,0,0)) # Reset screen
 		obstacles = presetObstacles[presetNum] # Set obstacles to desired preset
 		drawObstacle(surface, obstacles) # Draw obstacles
 
@@ -51,7 +52,6 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_RIGHT: # Select next preset
 					presetNum = (presetNum + 1) % len(presetObstacles)
 
-		surface.fill((0,0,0)) # Reset screen
 		pygame.display.flip() # Refresh frame
 
 	# Create ball with desired obstacles
@@ -60,13 +60,13 @@ if __name__ == "__main__":
 	# Game loop
 	frame = 1
 	while frame < DURATION:
+		surface.fill((0,0,0)) # Reset screen
 		drawBall(surface, gameBall, PARTICLEWIDTH)
 		drawObstacle(surface, obstacles) # Draw obstacles
 
 		gameBall.propagate()
 		gameBall.takeMod()
 
-		surface.fill((0,0,0)) # Reset screen
 		pygame.display.flip() # Refresh frame
 		frame += 1
 	
