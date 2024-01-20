@@ -60,7 +60,7 @@ if __name__ == "__main__":
 		pygame.display.flip() # Refresh frame
 
 	# Create ball with desired obstacles
-	gameBall = ball(obstacles, Dt=sizing["Dt"])
+	gameBall = ball(obstacles, Dt=sizing["Dt"], sigma=sizing["sigma"])
 
 	# Game loop
 	frame = 1
