@@ -34,6 +34,13 @@ if __name__ == "__main__":
 	while frame < DURATION:
 		drawObstacle(surface, obstacles) # Draw obstacles
 
+		gameBall.propagate()
+		gameBall.takeMod()
+
 		pygame.display.flip() # Refresh frame
 		frame += 1
+	
+	result, winX, winY = gameBall.measure()
+
+
 
