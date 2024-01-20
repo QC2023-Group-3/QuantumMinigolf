@@ -1,8 +1,8 @@
 import json
 import pygame
 
-# Open colors selection
-with open('/assets/style.json') as styles: COLORS = json.load(styles)['colors']
+# Open colors selection 
+with open('assets/style.json') as styles: COLORS = json.load(styles)['colors']
 
 # Draw obstacles
 def drawObstacle(surface, obstacles) -> None:
@@ -18,9 +18,9 @@ def drawObstacle(surface, obstacles) -> None:
 def drawBall(surface, ball, particleWidth) -> None:
 	psi = ball.psi
 	# Converting psi/matrix to a surface
-	for y in psi:
-		for x in y:
+	for yPos, y in enumerate(psi):
+		for xPos, x in enumerate(y):
 			currColor = int(x*255)
-			color = [i*currColor for i in COLORS["ballHeatmap"]] # Select which RGB values should be colored
+			color = (i*currColor for i in COLORS["ballHeatmap"]) # Select which RGB values should be colored
 
-			pygame.draw.rect(surface, color, (x-(particleWidth/2), y-(particleWidth/2), particleWidth, particleWidth))
+			pygame.draw.rect(surface, color, pygame.Rect(((xPos-(particleWidth/2)), (yPos-(particleWidth/2))), (particleWidth, particleWidth)))
