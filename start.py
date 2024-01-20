@@ -13,12 +13,16 @@ from assets.scripts.draw import *
 if __name__ == "__main__":
 	pygame.init()
 	
-	obstacles = [obstacle(280, 0, 320, 200), obstacle(280, 400, 320, 594), obstacle(280, 250, 320, 350)] # Attempt at double slit
-
 	# Get styles
 	with open('assets/style.json') as stylesFile: styles = json.load(stylesFile)
 
 	# Define Variables
+	presetObstacles = [obstacle(*i) for i in styles["obstaclePresets"]] # Turn presets into obstacle objects
+	try:
+		obstacles = presetObstacles[0] # Set to first preset (Error out if it doesn't exist)
+	except IndexError:
+		raise IndexError("Please add a preset in style.json")
+
 	gameBall = ball(obstacles)
 
 	WIDTH = styles["width"]
