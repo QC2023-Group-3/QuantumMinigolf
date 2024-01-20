@@ -1,7 +1,6 @@
 {
-	"width" : 594,
-	"height" : 594,
-	"particleWidth" : 6,
+	"scale" : 1,
+	"resolution" : 2,
 	"colors" : {
 		"obstacle" : [255, 255, 255],
 		"ballHeatmap" : [1, 1, 0]
@@ -10,5 +9,11 @@
 		[],
 		[[280, 0, 320, 200], [280, 400, 320, 594], [280, 250, 320, 350]],
 		[[280, 250, 320, 350]]
-	]
+	],
+	"defaults" : {
+		"width" : 594,
+		"height" : 594,
+		"particleWidth" : 6,
+		"Dt" : 0.005
+	}
 }

@@ -7,6 +7,7 @@ from QuantumAPI.obstacle import obstacle
 
 # Import Assets
 from assets.scripts.draw import *
+from assets.scripts.preferences import *
 
 
 # MAIN
@@ -15,6 +16,10 @@ if __name__ == "__main__":
 	
 	# Get styles
 	with open('style.json') as stylesFile: styles = json.load(stylesFile)
+
+	# Get properly scaled/calculated sizing and resolution
+	sizing = customScale()
+	sizing = customResolution(sizing)
 
 	# Define Variables
 	presetObstacles = [[obstacle(*a) for a in i] for i in styles["obstaclePresets"]] # Turn presets into obstacle objects
@@ -25,10 +30,10 @@ if __name__ == "__main__":
 	except IndexError: # Nothing in preset list
 		raise IndexError("Please add a preset in style.json")
 
-	WIDTH = styles["width"]
-	HEIGHT = styles["height"]
+	WIDTH = sizing["width"]
+	HEIGHT = sizing["height"]
 
-	PARTICLEWIDTH = styles["particleWidth"]
+	PARTICLEWIDTH = sizing["particleWidth"]
 
 	surface = pygame.display.set_mode((WIDTH,HEIGHT))
 
@@ -55,7 +60,7 @@ if __name__ == "__main__":
 		pygame.display.flip() # Refresh frame
 
 	# Create ball with desired obstacles
-	gameBall = ball(obstacles)
+	gameBall = ball(obstacles, Dt=sizing["Dt"])
 
 	# Game loop
 	frame = 1
