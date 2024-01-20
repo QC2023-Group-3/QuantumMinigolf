@@ -44,7 +44,6 @@ class ball:
 		# We fill the A and M matrices.
 		for k in range(self.Ni):
 
-			# k = (i-1)*(Ny-2) + (j-1)
 			i = 1 + k//(self.Ny-2)
 			j = 1 + k%(self.Ny-2)
 
@@ -73,11 +72,9 @@ class ball:
 		self.x = np.linspace(0, L, self.Ny-2) # Array of spatial points. (0,8,159?  wxy)
 		self.y = np.linspace(0, L, self.Ny-2) # Array of spatial points.
 		self.x, self.y = np.meshgrid(self.x, self.y)
-		#psis = [] # To store the wave function at each time step.
 
 		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
-		#psis.append(np.copy(psi)) # We store the wave function of this time step.
 
 		self.initialisePsi()
 		self.propagate()
@@ -101,16 +98,9 @@ class ball:
 		self.mod = np.sqrt(re**2 + im**2)
 
 		return self.mod
-		#mod_psis.append(mod) # We save the calculated modulus.
 
 	#measure
 	def measure(self): # Returns bool, int, int (win, xWin, yWin)
-		# prob_density=last_mod.flatten()
-		# prob_density = prob_density/np.sum(last_mod)
-		# selected_index=np.random.choice(len(prob_density), p=prob_density)
-		# i = 1 + selected_index//(y_length-2) #x-coordinate- TBC
-		# j = 1 + selected_index%(x_length-2) #y-coordinate- TBC
-		# print(i,j)
 		mod_total = 0  # to record the total amplitude in the whole space, for normalization later.
 		win=True
 		for i in range(self.Nx-2):		
