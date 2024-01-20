@@ -14,7 +14,7 @@ if __name__ == "__main__":
 	pygame.init()
 	
 	# Get styles
-	with open('assets/style.json') as stylesFile: styles = json.load(stylesFile)
+	with open('style.json') as stylesFile: styles = json.load(stylesFile)
 
 	# Define Variables
 	presetObstacles = [[obstacle(*a) for a in i] for i in styles["obstaclePresets"]] # Turn presets into obstacle objects

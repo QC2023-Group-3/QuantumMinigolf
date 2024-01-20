@@ -3,7 +3,7 @@ import pygame
 import numpy as np
 
 # Open colors selection 
-with open('assets/style.json') as styles: COLORS = json.load(styles)['colors']
+with open('style.json') as styles: COLORS = json.load(styles)['colors']
 
 # Draw obstacles
 def drawObstacle(surface, obstacles) -> None:
