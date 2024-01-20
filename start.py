@@ -17,7 +17,7 @@ if __name__ == "__main__":
 	with open('assets/style.json') as stylesFile: styles = json.load(stylesFile)
 
 	# Define Variables
-	presetObstacles = [obstacle(*i) for i in styles["obstaclePresets"]] # Turn presets into obstacle objects
+	presetObstacles = [[obstacle(*a) for a in i] for i in styles["obstaclePresets"]] # Turn presets into obstacle objects
 	presetNum = 0 # Which preset we are currently on
 
 	try:
@@ -52,6 +52,9 @@ if __name__ == "__main__":
 					presetNum -= 1 # Reduce preset by 1
 					if presetNum < 0:
 						presetNum = len(presetObstacles)-1 # Set to last preset, -1 because of index numbers
+
+						if presetNum < 0: # If there are no more presets
+							presetNum = 0
 				elif event.key == pygame.K_RIGHT: # Select next preset
 					presetNum += 1
 					if presetNum > len(presetObstacles)-1:
