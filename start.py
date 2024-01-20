@@ -19,9 +19,21 @@ if __name__ == "__main__":
 
 	surface = pygame.display.set_mode((400,300))
 
+	DURATION = 100 # Time duration of project
+
 	# Initial selecting direction/paddle of ball
-	while True:
+	selectionComplete = False # If user has made paddle selection yet
+
+	while not selectionComplete: # Wait for user to make paddle direction selection
 		drawObstacle(surface, obstacles) # Draw obstacles
 
 		pygame.display.flip() # Refresh frame
+
+	# Game loop
+	frame = 1
+	while frame < DURATION:
+		drawObstacle(surface, obstacles) # Draw obstacles
+
+		pygame.display.flip() # Refresh frame
+		frame += 1
 
