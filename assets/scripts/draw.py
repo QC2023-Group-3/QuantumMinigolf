@@ -10,7 +10,7 @@ def drawObstacle(surface, obstacles) -> None:
 	for obstacle in obstacles:
 		left = obstacle.beginX
 		top = obstacle.beginY
-		width = abs(obstacle.beginX-obstacle.beginY)
+		width = abs(obstacle.beginX-obstacle.endX)
 		height = abs(obstacle.beginY-obstacle.endY)
 
 		pygame.draw.rect(surface, COLORS["obstacle"], pygame.Rect(left, top, width, height))
