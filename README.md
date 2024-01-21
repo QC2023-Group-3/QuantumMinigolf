@@ -1,6 +1,6 @@
 # <div align="center">Quantum Minigolf</div>
 
-<div align="center"><i>Quantum Mini Golf Game</i></div>
+<div align="center"><i>A Unique Simulation Blending Minigolf with Quantum Physics Principles.</i></div>
 
 ***
 
