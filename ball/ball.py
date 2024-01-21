@@ -31,6 +31,10 @@ class ball:
 		self.x0=L/5
 		self.y0=L/2
 
+		# Goal variables
+		self.in_goal_coords = []
+		self.outside_goal_coords = []
+
 		# Obstacles
 		self.obstacles = obstacles
 
@@ -99,13 +103,8 @@ class ball:
 
 		return self.mod
 
-	#Measurement code
-	global in_goal_coords
-	global outside_goal_coords
-	in_goal_coords=[]
-	outside_goal_coords=[]
 	def setGoalCoords(coords):
-		in_goal_coords=coords #in the form of (i,j)
+		self.in_goal_coords=coords #in the form of (i,j)
 
 	def measure(self,Nx,Ny,mod_end):
 		mod_total = 0 # to record the total amplitude in the whole space, for normalization later.
@@ -122,22 +121,18 @@ class ball:
 							mod_goal=mod_goal+modulus
 							in_goal_prob_density.append(modulus)
 						else:
-							outside_goal_coords.append((i,j))
+							self.outside_goal_coords.append((i,j))
 							outside_goal_prob_density.apend(modulus)
-					
-		print(mod_total)
 
 		probability = mod_goal / mod_total          # The probability to win the game (?)
-		print("probability = ", probability)
 		random_number = random.random()
-		print(random_number)                        # Compare with the random number in range (0,1)
 
 		if probability - random_number > 0 :
 				win=True
-				selected_index = np.random.choice(len(in_goal_prob_density()), p=in_goal_prob_density())
+				selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density)
 		else :
 				win=False
-				selected_index = np.random.choice(len(outside_goal_prob_density()), p=outside_goal_prob_density())
+				selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density)
 		
 		i=selected_index[0] # x-coordinate of selected point
 		j=selected_index[1] # y-coordinate of selected point
