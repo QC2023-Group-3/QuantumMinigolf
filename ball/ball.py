@@ -103,7 +103,7 @@ class ball:
 
 		return self.mod
 
-	def setGoalCoords(coords):
+	def setGoalCoords(self, coords):
 		self.in_goal_coords=coords #in the form of (i,j)
 
 	def measure(self,Nx,Ny,mod_end):
@@ -117,7 +117,7 @@ class ball:
 			for j in range(Ny-2):
 				modulus=mod_end[i,j]
 				mod_total = mod_total + modulus
-				if ((i,j) in in_goal_coords):
+				if ((i,j) in self.in_goal_coords):
 					mod_goal=mod_goal+modulus
 					in_goal_prob_density.append(modulus)
 				else:
