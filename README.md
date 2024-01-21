@@ -1,4 +1,4 @@
-# <div align="center">Quantum Game</div>
+# <div align="center">Quantum Minigolf</div>
 
 <div align="center"><i>Quantum Mini Golf Game</i></div>
 
