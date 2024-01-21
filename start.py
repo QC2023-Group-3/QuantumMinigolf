@@ -2,8 +2,8 @@ import pygame # Game Engine
 import json # For styles
 
 # Import mathematical logic behind game
-from QuantumAPI.ball import ball
-from QuantumAPI.obstacle import obstacle
+from assets.logic.ball import ball
+from assets.logic.obstacle import obstacle
 
 # Import Assets
 from assets.scripts.draw import *
