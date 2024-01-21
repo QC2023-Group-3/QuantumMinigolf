@@ -31,6 +31,10 @@ class ball:
 		self.x0=L/5
 		self.y0=L/2
 
+		# Goal variables
+		self.in_goal_coords = []
+		self.outside_goal_coords = []
+
 		# Obstacles
 		self.obstacles = obstacles
 
@@ -99,31 +103,39 @@ class ball:
 
 		return self.mod
 
-	#measure
-	def measure(self): # Returns bool, int, int (win, xWin, yWin)
-		mod_total = 0  # to record the total amplitude in the whole space, for normalization later.
+	def setGoalCoords(self, coords):
+		self.in_goal_coords=coords #in the form of (i,j)
+
+	def measure(self,Nx,Ny,mod_end):
+		mod_total = 0 # to record the total amplitude in the whole space, for normalization later.
+		mod_goal = 0 # calculate the total module of psi in the target area (your goal).
 		win=True
-		for i in range(self.Nx-2):		
-			for j in range(self.Ny-2):	
-				mod_total = mod_total + self.mod[i,j]	
-		mod_goal = 0            
-		# calculate the total module of psi in the target area (your goal).
-		for i in range(int(1*(self.Ny-3)/10), int(9*(self.Ny-3)/10)): #here goal is default to be these sizes but its gonna be customizable soon (qqa)
-			for j in range(int(2*(self.Nx-3)/3),self.Nx-3):
-				# Self define the region of the goal, calculate the total modules of psi in it.	
-				mod_goal = mod_goal + self.mod[i,j]	
 
-		probability = mod_goal / mod_total
-		random_number = random.random()                  
-		# Compare with the random number in range (0,1)
-		if probability - random_number > 0 :		 
+		in_goal_prob_density=[]
+		outside_goal_prob_density=[]
+		for i in range(Nx-2):
+			for j in range(Ny-2):
+				modulus=mod_end[i,j]
+				mod_total = mod_total + modulus
+				if ((i,j) in self.in_goal_coords):
+					mod_goal=mod_goal+modulus
+					in_goal_prob_density.append(modulus)
+				else:
+					self.outside_goal_coords.append((i,j))
+					outside_goal_prob_density.apend(modulus)
+
+		probability = mod_goal / mod_total          # The probability to win the game (?)
+		random_number = random.random()
+
+		if probability - random_number > 0:
 			win=True
-		else:		  
+			selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density)
+		else:
 			win=False
-
-		i=0 #TBC!! - x-coordinate of selected point
-		j=0 #TBC!! - y-coordinate of selected point
-
+			selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density)
+		
+		i=selected_index[0] # x-coordinate of selected point
+		j=selected_index[1] # y-coordinate of selected point
 		return (win,i,j)
 	
 	def initialisePsi(self):
