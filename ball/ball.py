@@ -114,25 +114,25 @@ class ball:
 		in_goal_prob_density=[]
 		outside_goal_prob_density=[]
 		for i in range(Nx-2):
-				for j in range(Ny-2):
-						modulus=mod_end[i,j]
-						mod_total = mod_total + modulus
-						if ((i,j) in in_goal_coords):
-							mod_goal=mod_goal+modulus
-							in_goal_prob_density.append(modulus)
-						else:
-							self.outside_goal_coords.append((i,j))
-							outside_goal_prob_density.apend(modulus)
+			for j in range(Ny-2):
+				modulus=mod_end[i,j]
+				mod_total = mod_total + modulus
+				if ((i,j) in in_goal_coords):
+					mod_goal=mod_goal+modulus
+					in_goal_prob_density.append(modulus)
+				else:
+					self.outside_goal_coords.append((i,j))
+					outside_goal_prob_density.apend(modulus)
 
 		probability = mod_goal / mod_total          # The probability to win the game (?)
 		random_number = random.random()
 
-		if probability - random_number > 0 :
-				win=True
-				selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density)
+		if probability - random_number > 0:
+			win=True
+			selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density)
 		else :
-				win=False
-				selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density)
+			win=False
+			selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density)
 		
 		i=selected_index[0] # x-coordinate of selected point
 		j=selected_index[1] # y-coordinate of selected point
@@ -141,4 +141,3 @@ class ball:
 	def initialisePsi(self):
 		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
-
