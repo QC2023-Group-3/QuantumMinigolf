@@ -118,7 +118,7 @@ class ball:
 		# Compare with the random number in range (0,1)
 		if probability - random_number > 0 :		 
 			win=True
-		else :		  
+		else:		  
 			win=False
 
 		i=0 #TBC!! - x-coordinate of selected point
