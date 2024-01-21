@@ -130,7 +130,7 @@ class ball:
 		if probability - random_number > 0:
 			win=True
 			selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density)
-		else :
+		else:
 			win=False
 			selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density)
 		
