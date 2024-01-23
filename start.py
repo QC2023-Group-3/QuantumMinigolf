@@ -9,6 +9,7 @@ from assets.logic.obstacle import obstacle
 # Import Assets
 from assets.scripts.draw import *
 from assets.scripts.preferences import *
+from assets.scripts.calculation import *
 
 
 # MAIN
@@ -65,55 +66,61 @@ if __name__ == "__main__":
 
 			pygame.display.flip() # Refresh frame
 
-		# Create ball with desired obstacles
-		gameBall = ball(obstacles, Dt=sizing["Dt"], sigma=sizing["sigma"])
-		scale = gameBall.Nx/WIDTH
-		ballX = gameBall.x0*scale
-		ballY = gameBall.y0*scale
-		hit = False  
-		dragging = False
-
-		pygame.display.set_caption(str(ballX))
-		pygame.display.set_caption(str(ballY))
-
-		while not hit:
-			screen.fill((0,0,0))
-			screen.blit(screen, (0, 0))
-			pygame.draw.circle(screen, (255, 255, 255), (ballX, ballY), 10)
-
-			mouseX = pygame.mouse.get_pos()[0]
-			mouseY = pygame.mouse.get_pos()[1]
-			sqx = (mouseX - ballX)**2
-			sqy = (mouseY - ballY)**2
-			
-			if math.sqrt(sqx + sqy) < 100:
-				inside = True
-			else:
-				inside = False
-
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT: # Allow user to quit
-					exit()
-				elif event.type == pygame.MOUSEBUTTONDOWN:           
-					if inside:
-						dragging = True
-
-				elif event.type == pygame.MOUSEBUTTONUP:
-					if dragging == True:
-						dragging = False
-						hit = True #end while loop
-			
-			if dragging:
-						drawPullBack(screen, mouseX, mouseY, ballX, ballY) #so that animation continues when no mouse movement is detected
-
-			pygame.display.flip()
+		hit = False
 		# Game loop
 		currRound = True
 		while currRound:
+			# Create ball with desired obstacles
+			gameBall = ball(obstacles, Dt=sizing["Dt"], sigma=sizing["sigma"])
+
 			screen.fill((0,0,0)) # Reset screen
 			drawBall(screen, gameBall, PARTICLEWIDTH)
 			drawObstacle(screen, obstacles) # Draw obstacles
 			drawGoal(screen, WIDTH, HEIGHT)
+
+			scale = gameBall.Nx/WIDTH
+			ballX = gameBall.x0*scale
+			ballY = gameBall.y0*scale 
+			dragging = False
+
+			pygame.display.set_caption(str(ballX))
+			pygame.display.set_caption(str(ballY))
+
+			while not hit:
+				screen.fill((0,0,0)) # Reset screen
+				drawBall(screen, gameBall, PARTICLEWIDTH)
+				drawObstacle(screen, obstacles) # Draw obstacles
+				drawGoal(screen, WIDTH, HEIGHT)
+
+				pygame.draw.circle(screen, (255, 255, 255), (ballX, ballY), 10)
+
+				mouseX = pygame.mouse.get_pos()[0]
+				mouseY = pygame.mouse.get_pos()[1]
+				sqx = (mouseX - ballX)**2
+				sqy = (mouseY - ballY)**2
+				
+				if math.sqrt(sqx + sqy) < 100:
+					inside = True
+				else:
+					inside = False
+
+				for event in pygame.event.get():
+					if event.type == pygame.QUIT: # Allow user to quit
+						exit()
+					elif event.type == pygame.MOUSEBUTTONDOWN:           
+						if inside:
+							dragging = True
+
+					elif event.type == pygame.MOUSEBUTTONUP:
+						if dragging == True:
+							dragging = False
+							hit = True #end while loop
+							angle = calcAnge()
+				
+				if dragging:
+					drawPullBack(screen, mouseX, mouseY, ballX, ballY) #so that animation continues when no mouse movement is detected
+
+				pygame.display.flip()
 
 			events = pygame.event.get()
 			for event in events:
