@@ -1,6 +1,7 @@
 import pygame # Game Engine
 import json # For styles
 import math #certain math functions
+import numpy as np
 
 # Import mathematical logic behind game
 from assets.logic.ball import ball
@@ -38,10 +39,7 @@ if __name__ == "__main__":
 	PARTICLEWIDTH = sizing["particleWidth"]
 
 	screen = pygame.display.set_mode((WIDTH,HEIGHT)) #main screen
-	#surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA) #surface to draw transparent objects
-
-	fps = 120 #sets speed/frames per second
-	time = pygame.time.Clock
+	#surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA) #surface to draw transparent object
 
 	while True:
 		# Initial selecting of obstacle preset
@@ -78,9 +76,8 @@ if __name__ == "__main__":
 			drawObstacle(screen, obstacles) # Draw obstacles
 			drawGoal(screen, WIDTH, HEIGHT)
 
-			scale = gameBall.Nx/WIDTH
-			ballX = gameBall.x0*scale
-			ballY = gameBall.y0*scale 
+			ballX = (HEIGHT/5)+PARTICLEWIDTH
+			ballY = (WIDTH/2)+PARTICLEWIDTH
 			dragging = False
 
 			pygame.display.set_caption(str(ballX))
@@ -115,7 +112,7 @@ if __name__ == "__main__":
 						if dragging == True:
 							dragging = False
 							hit = True #end while loop
-							angle = calcAnge()
+							angle = calcAngle((ballX, ballY), (mouseX, mouseY))
 				
 				if dragging:
 					drawPullBack(screen, mouseX, mouseY, ballX, ballY) #so that animation continues when no mouse movement is detected
