@@ -106,23 +106,23 @@ class ball:
 	def setGoalCoords(self, coords):
 		self.in_goal_coords=coords #in the form of (i,j)
 
-	def measure(self,Nx,Ny,mod_end):
+	def measure(self):
 		mod_total = 0 # to record the total amplitude in the whole space, for normalization later.
 		mod_goal = 0 # calculate the total module of psi in the target area (your goal).
 		win=True
 
 		in_goal_prob_density=[]
 		outside_goal_prob_density=[]
-		for i in range(Nx-2):
-			for j in range(Ny-2):
-				modulus=mod_end[i,j]
+		for i in range(self.Nx-2):
+			for j in range(self.Ny-2):
+				modulus=self.mod_end[i,j]
 				mod_total = mod_total + modulus
 				if ((i,j) in self.in_goal_coords):
 					mod_goal=mod_goal+modulus
 					in_goal_prob_density.append(modulus)
 				else:
 					self.outside_goal_coords.append((i,j))
-					outside_goal_prob_density.apend(modulus)
+					outside_goal_prob_density.append(modulus)
 
 		probability = mod_goal / mod_total          # The probability to win the game (?)
 		random_number = random.random()
