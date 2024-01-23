@@ -1,5 +1,6 @@
 import pygame # Game Engine
 import json # For styles
+import math #certain math functions
 
 # Import mathematical logic behind game
 from assets.logic.ball import ball
@@ -35,16 +36,20 @@ if __name__ == "__main__":
 
 	PARTICLEWIDTH = sizing["particleWidth"]
 
-	surface = pygame.display.set_mode((WIDTH,HEIGHT))
+	screen = pygame.display.set_mode((WIDTH,HEIGHT)) #main screen
+	#surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA) #surface to draw transparent objects
+
+	fps = 120 #sets speed/frames per second
+	time = pygame.time.Clock
 
 	while True:
-		# Initial selecting direction/paddle of ball
-		selectionComplete = False # If user has made paddle selection yet
+		# Initial selecting of obstacle preset
+		selectionComplete = False # If user has made selection yet
 
-		while not selectionComplete: # Wait for user to make paddle direction selection
-			surface.fill((0,0,0)) # Reset screen
+		while not selectionComplete: # Wait for user to make obstacle selection
+			screen.fill((0,0,0)) # Reset screen
 			obstacles = presetObstacles[presetNum] # Set obstacles to desired preset
-			drawObstacle(surface, obstacles) # Draw obstacles
+			drawObstacle(screen, obstacles) # Draw obstacles
 
 			events = pygame.event.get()
 			for event in events:
@@ -62,13 +67,53 @@ if __name__ == "__main__":
 
 		# Create ball with desired obstacles
 		gameBall = ball(obstacles, Dt=sizing["Dt"], sigma=sizing["sigma"])
+		scale = gameBall.Nx/WIDTH
+		ballX = gameBall.x0*scale
+		ballY = gameBall.y0*scale
+		hit = False  
+		dragging = False
 
+		pygame.display.set_caption(str(ballX))
+		pygame.display.set_caption(str(ballY))
+
+		while not hit:
+			screen.fill((0,0,0))
+			screen.blit(screen, (0, 0))
+			pygame.draw.circle(screen, (255, 255, 255), (ballX, ballY), 10)
+
+			mouseX = pygame.mouse.get_pos()[0]
+			mouseY = pygame.mouse.get_pos()[1]
+			sqx = (mouseX - ballX)**2
+			sqy = (mouseY - ballY)**2
+			
+			if math.sqrt(sqx + sqy) < 100:
+				inside = True
+			else:
+				inside = False
+
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT: # Allow user to quit
+					exit()
+				elif event.type == pygame.MOUSEBUTTONDOWN:           
+					if inside:
+						dragging = True
+
+				elif event.type == pygame.MOUSEBUTTONUP:
+					if dragging == True:
+						dragging = False
+						hit = True #end while loop
+			
+			if dragging:
+						drawPullBack(screen, mouseX, mouseY, ballX, ballY) #so that animation continues when no mouse movement is detected
+
+			pygame.display.flip()
 		# Game loop
 		currRound = True
 		while currRound:
-			surface.fill((0,0,0)) # Reset screen
-			drawBall(surface, gameBall, PARTICLEWIDTH)
-			drawObstacle(surface, obstacles) # Draw obstacles
+			screen.fill((0,0,0)) # Reset screen
+			drawBall(screen, gameBall, PARTICLEWIDTH)
+			drawObstacle(screen, obstacles) # Draw obstacles
+			drawGoal(screen, WIDTH, HEIGHT)
 
 			events = pygame.event.get()
 			for event in events:
@@ -81,6 +126,6 @@ if __name__ == "__main__":
 			gameBall.propagate()
 			gameBall.takeMod()
 
-			pygame.display.flip() # Refresh frame
+			pygame.display.flip() # display frame
 		
-		result, winX, winY = gameBall.measure()
+		result, winX, winY = gameBall.measure(WIDTH, HEIGHT, )
