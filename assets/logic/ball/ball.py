@@ -26,6 +26,7 @@ class ball:
 		self.ry = -Dt/(2j*Dy**2)
 
 		self.sigma = sigma
+		self.angle = angle
 		
 		# Initial position of the center of the Gaussian wave function.
 		self.x0=L/5
@@ -77,15 +78,16 @@ class ball:
 		self.y = np.linspace(0, L, self.Ny-2) # Array of spatial points.
 		self.x, self.y = np.meshgrid(self.x, self.y)
 
-		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
+		self.psi = self.psi0(self.x, self.y, self.x0, self.y0, self.angle) # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
 
 		self.initialisePsi()
 		self.propagate()
 		self.takeMod()
 
-	def psi0(self, x, y, x0, y0, k=15*np.pi):
-		return np.exp(-1/2*((x-x0)**2 + (y-y0)**2)/self.sigma**2)*np.exp(1j*k*(x-x0))
+	def psi0(self, x, y, x0, y0, angle, k=15*np.pi): #angle = angle between direction of propagation to the vertical position in degree
+		theta=-np.pi/180*self.angle #convert to radians
+		return np.exp(-1/2*((x-x0)**2 + (y-y0)**2)/self.sigma**2)*np.exp(-1j*k*((y-y0)*np.cos(theta)+(x-x0)*np.sin(theta)))
 
 	def propagate(self):
 		psi_vect = self.psi.reshape((self.Ni)) # We adjust the shape of the array to generate the matrix b of independent terms.
