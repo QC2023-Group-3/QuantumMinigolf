@@ -76,8 +76,8 @@ if __name__ == "__main__":
 			drawObstacle(screen, obstacles) # Draw obstacles
 			drawGoal(screen, WIDTH, HEIGHT)
 
-			ballX = (HEIGHT/5)+PARTICLEWIDTH
-			ballY = (WIDTH/2)+PARTICLEWIDTH
+			ballX = (HEIGHT/5)-PARTICLEWIDTH
+			ballY = (WIDTH/2)-PARTICLEWIDTH
 			dragging = False
 
 			pygame.display.set_caption(str(ballX))
@@ -89,7 +89,7 @@ if __name__ == "__main__":
 				drawObstacle(screen, obstacles) # Draw obstacles
 				drawGoal(screen, WIDTH, HEIGHT)
 
-				pygame.draw.circle(screen, (255, 255, 255), (ballX, ballY), 10)
+				pygame.draw.circle(screen, (255, 255, 255), (ballX, ballY), 50)
 
 				mouseX = pygame.mouse.get_pos()[0]
 				mouseY = pygame.mouse.get_pos()[1]
