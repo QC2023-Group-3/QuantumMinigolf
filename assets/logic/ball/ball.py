@@ -1,4 +1,5 @@
 import numpy as np
+import math
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
 import random
@@ -83,7 +84,6 @@ class ball:
 
 		self.initialisePsi()
 		self.propagate()
-		self.takeMod()
 
 	def psi0(self, k=15*np.pi): #angle = angle between direction of propagation to the vertical position in degree
 		#theta=-np.pi/180*self.angle #convert to radians
@@ -93,23 +93,34 @@ class ball:
 	def propagate(self):
 		psi_vect = self.psi.reshape((self.Ni)) # We adjust the shape of the array to generate the matrix b of independent terms.
 		b = np.matmul(self.M,psi_vect) # We calculate the array of independent terms.
-		psi_vect = spsolve(self.Asp,b) # Resolvemos el sistema para este paso temporal.   (Asp x = b, solve x, which equals to psi_vect.   wxy)	
-		self.psi = psi_vect.reshape((self.Nx-2,self.Ny-2)) # Recuperamos la forma del array de la función de onda.
+		psi_vect = spsolve(self.Asp,b) # Solve for time step.   (Asp x = b, solve x, which equals to psi_vect.   wxy)	
+		self.psi = psi_vect.reshape((self.Nx-2,self.Ny-2)) # Recover array from wave function.
 		for i in range (len(self.obstacles)):
 			self.psi = self.obstacles[i].checkCollided(self.psi) # We retrieve the shape of the wave function array. (??? wxy)
 
 	# We calculate the modulus of the wave function at each time step.
-	def takeMod(self):
-		re = np.real(self.psi) # Real part.
-		im = np.imag(self.psi) # Imaginary part.
-		self.mod = np.sqrt(re**2 + im**2)
+	def takeMod(self, wavefunc):
+		re = np.real(wavefunc) # Real part.
+		im = np.imag(wavefunc) # Imaginary part.
+		mod = np.sqrt(re**2 + im**2)
 
-		return self.mod
+		return mod
 
-	def setGoalCoords(self, coords):
-		self.in_goal_coords=coords #in the form of (i,j)
+	def setGoalCoords(self, coords, rad):
+		self.goalCoords = coords[0], coords[1]
+		self.goalRad = rad
 
-	def measure(self):
+	def checkInGoal(self, x, y):
+		x2, y2 = self.goalCoords
+		pointX = x * 6 - 3
+		pointY = y * 6 - 3
+		distance = math.hypot(pointX - x2, pointY - y2)
+		if distance <= self.goalRad:
+			return True
+		else:
+			return False
+
+	def measure(self, mod_end):
 		mod_total = 0 # to record the total amplitude in the whole space, for normalization later.
 		mod_goal = 0 # calculate the total module of psi in the target area (your goal).
 		win=True
@@ -118,28 +129,30 @@ class ball:
 		outside_goal_prob_density=[]
 		for i in range(self.Nx-2):
 			for j in range(self.Ny-2):
-				modulus=self.mod_end[i,j]
+				modulus = mod_end[i,j]
 				mod_total = mod_total + modulus
-				if ((i,j) in self.in_goal_coords):
+				if (self.checkInGoal(i, j)):
 					mod_goal=mod_goal+modulus
 					in_goal_prob_density.append(modulus)
 				else:
 					self.outside_goal_coords.append((i,j))
 					outside_goal_prob_density.append(modulus)
 
-		probability = mod_goal / mod_total          # The probability to win the game (?)
+		probability = mod_goal / mod_total # The probability to win the game (?)
 		random_number = random.random()
 
 		if probability - random_number > 0:
 			win=True
-			selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density)
+			selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density/sum(in_goal_prob_density))
 		else:
 			win=False
-			selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density)
-		
-		i=selected_index[0] # x-coordinate of selected point
-		j=selected_index[1] # y-coordinate of selected point
-		return (win,i,j)
+			selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density/sum(outside_goal_prob_density))
+
+		j = 1 + selected_index//(self.Ny-2)
+		i = 1 + selected_index%(self.Ny-2) # x-coordinate of selected point
+        # y-coordinate of selected point
+
+		return (win,self.L/self.Nx*i,self.L/self.Ny*j)
 	
 	def initialisePsi(self):
 		self.psi = self.psi0() # We initialise the wave function with the Gaussian.   (159*159? wxy)

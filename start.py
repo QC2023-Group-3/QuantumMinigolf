@@ -41,6 +41,10 @@ if __name__ == "__main__":
 	screen = pygame.display.set_mode((WIDTH,HEIGHT)) #main screen
 	#surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA) #surface to draw transparent object
 
+	def scale(var):
+		var = var * PARTICLEWIDTH - (PARTICLEWIDTH/2)
+		return var
+
 	while True:
 		# Initial selecting of obstacle preset
 		selectionComplete = False # If user has made selection yet
@@ -123,8 +127,28 @@ if __name__ == "__main__":
 						currRound = False # Stop while loop after user says stop
 
 			gameBall.propagate()
-			gameBall.takeMod()
 
 			pygame.display.flip() # display frame
 		
-		result, winX, winY = gameBall.measure(WIDTH, HEIGHT, )
+		gameBall.setGoalCoords((WIDTH*4/5, HEIGHT/2), 50)
+		result, winX, winY = gameBall.measure(gameBall.takeMod(gameBall.psi)) #unsure what to pass into mod_end
+	
+		finX = scale(winX)
+		finY = scale(winY)
+
+		print(finX, finY, winX, winY, result)
+
+		endscreen = True
+		while endscreen:
+			pygame.draw.circle(screen, (0, 255, 0), (finX, finY), 7)
+			drawGoal(screen, WIDTH, HEIGHT)
+
+			events = pygame.event.get()
+			for event in events:
+				if event.type == pygame.QUIT: # Allow user to quit
+					exit()
+				if event.type == pygame.K_RETURN:
+					screen.fill((0,0,0)) # Reset screen
+					endscreen = False
+
+			pygame.display.flip()
