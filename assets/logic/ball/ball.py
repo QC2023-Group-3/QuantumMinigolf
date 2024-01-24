@@ -4,7 +4,7 @@ from scipy.sparse.linalg import spsolve
 import random
 
 class ball:
-	def __init__(self, obstacles, L = 5,  Dy = 0.05, Dt = 0.005, sigma = 0.5):
+	def __init__(self, obstacles, angle, L = 5,  Dy = 0.05, Dt = 0.005, sigma = 0.5):
 		"""
 		L = Well of width L. Shafts from 0 to +L.
 		Dy = Spatial step size.
@@ -26,6 +26,7 @@ class ball:
 		self.ry = -Dt/(2j*Dy**2)
 
 		self.sigma = sigma
+		self.angle = angle
 		
 		# Initial position of the center of the Gaussian wave function.
 		self.x0=L/5
@@ -77,15 +78,16 @@ class ball:
 		self.y = np.linspace(0, L, self.Ny-2) # Array of spatial points.
 		self.x, self.y = np.meshgrid(self.x, self.y)
 
-		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
+		self.psi = self.psi0() # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
 
 		self.initialisePsi()
 		self.propagate()
 		self.takeMod()
 
-	def psi0(self, x, y, x0, y0, k=15*np.pi):
-		return np.exp(-1/2*((x-x0)**2 + (y-y0)**2)/self.sigma**2)*np.exp(1j*k*(x-x0))
+	def psi0(self, k=15*np.pi): #angle = angle between direction of propagation to the vertical position in degree
+		theta=-np.pi/180*self.angle #convert to radians
+		return np.exp(-1/2*((self.x-self.x0)**2 + (self.y-self.y0)**2)/self.sigma**2)*np.exp(-1j*k*((self.y-self.y0)*np.cos(theta)+(self.x-self.x0)*np.sin(theta)))
 
 	def propagate(self):
 		psi_vect = self.psi.reshape((self.Ni)) # We adjust the shape of the array to generate the matrix b of independent terms.
@@ -106,23 +108,23 @@ class ball:
 	def setGoalCoords(self, coords):
 		self.in_goal_coords=coords #in the form of (i,j)
 
-	def measure(self,Nx,Ny,mod_end):
+	def measure(self):
 		mod_total = 0 # to record the total amplitude in the whole space, for normalization later.
 		mod_goal = 0 # calculate the total module of psi in the target area (your goal).
 		win=True
 
 		in_goal_prob_density=[]
 		outside_goal_prob_density=[]
-		for i in range(Nx-2):
-			for j in range(Ny-2):
-				modulus=mod_end[i,j]
+		for i in range(self.Nx-2):
+			for j in range(self.Ny-2):
+				modulus=self.mod_end[i,j]
 				mod_total = mod_total + modulus
 				if ((i,j) in self.in_goal_coords):
 					mod_goal=mod_goal+modulus
 					in_goal_prob_density.append(modulus)
 				else:
 					self.outside_goal_coords.append((i,j))
-					outside_goal_prob_density.apend(modulus)
+					outside_goal_prob_density.append(modulus)
 
 		probability = mod_goal / mod_total          # The probability to win the game (?)
 		random_number = random.random()
@@ -139,5 +141,5 @@ class ball:
 		return (win,i,j)
 	
 	def initialisePsi(self):
-		self.psi = self.psi0(self.x, self.y, self.x0, self.y0) # We initialise the wave function with the Gaussian.   (159*159? wxy)
+		self.psi = self.psi0() # We initialise the wave function with the Gaussian.   (159*159? wxy)
 		self.psi[0,:] = self.psi[-1,:] = self.psi[:,0] = self.psi[:,-1] = 0 # The wave function equals 0 at the edges of the simulation box (infinite potential well). (-1=last) (boundary conditions qqa)
