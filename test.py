@@ -42,28 +42,7 @@ if __name__ == "__main__":
 	#surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA) #surface to draw transparent object
 
 	while True:
-		# Initial selecting of obstacle preset
-		selectionComplete = False # If user has made selection yet
-
-		while not selectionComplete: # Wait for user to make obstacle selection
-			screen.fill((0,0,0)) # Reset screen
-			obstacles = presetObstacles[presetNum] # Set obstacles to desired preset
-			drawObstacle(screen, obstacles) # Draw obstacles
-
-			events = pygame.event.get()
-			for event in events:
-				if event.type == pygame.QUIT: # Allow user to quit
-					exit()
-				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_RETURN: # Finished selection
-						selectionComplete = True # Stop while loop after finishing everything
-					elif event.key == pygame.K_LEFT: # Select previous preset
-						presetNum = (presetNum - 1) % len(presetObstacles)
-					elif event.key == pygame.K_RIGHT: # Select next preset
-						presetNum = (presetNum + 1) % len(presetObstacles)
-
-			pygame.display.flip() # Refresh frame
-
+		obstacles = presetObstacles[1]
 		# Create ball with desired obstacles
 		gameBall = ball(obstacles, 0, Dt=sizing["Dt"], sigma=sizing["sigma"])
 		hit = False
@@ -76,7 +55,6 @@ if __name__ == "__main__":
 		while not hit:
 			screen.fill((0,0,0)) # Reset screen
 			drawBall(screen, gameBall, PARTICLEWIDTH)
-			drawObstacle(screen, obstacles) # Draw obstacles
 			drawGoal(screen, WIDTH, HEIGHT)
 
 			mouseX = pygame.mouse.get_pos()[0]
@@ -100,7 +78,8 @@ if __name__ == "__main__":
 					if dragging:
 						dragging = False
 						hit = True #end while loop
-						angle = calcAngle((ballX, ballY), (mouseX, mouseY))
+						angle = calcAngle((ballX, ballY), (mouseX, mouseY)) #get angle of ball to mouse
+						print(angle)
 						gameBall = ball(obstacles, angle[0], Dt=sizing["Dt"], sigma=sizing["sigma"])
 			
 			if dragging:
@@ -111,7 +90,6 @@ if __name__ == "__main__":
 		while currRound:
 			screen.fill((0,0,0)) # Reset screen
 			drawBall(screen, gameBall, PARTICLEWIDTH)
-			drawObstacle(screen, obstacles) # Draw obstacles
 			drawGoal(screen, WIDTH, HEIGHT)
 			
 			events = pygame.event.get()
@@ -127,4 +105,3 @@ if __name__ == "__main__":
 
 			pygame.display.flip() # display frame
 		
-		result, winX, winY = gameBall.measure(WIDTH, HEIGHT, )

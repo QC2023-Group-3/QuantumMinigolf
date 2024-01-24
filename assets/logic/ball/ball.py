@@ -86,7 +86,8 @@ class ball:
 		self.takeMod()
 
 	def psi0(self, k=15*np.pi): #angle = angle between direction of propagation to the vertical position in degree
-		theta=-np.pi/180*self.angle #convert to radians
+		#theta=-np.pi/180*self.angle #convert to radians
+		theta = self.angle 
 		return np.exp(-1/2*((self.x-self.x0)**2 + (self.y-self.y0)**2)/self.sigma**2)*np.exp(-1j*k*((self.y-self.y0)*np.cos(theta)+(self.x-self.x0)*np.sin(theta)))
 
 	def propagate(self):
