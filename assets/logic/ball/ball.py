@@ -143,19 +143,19 @@ class ball:
 
 		if probability - random_number > 0:
 			win=True
-			selected_index=np.where(in_goal_prob_density==np.amax(in_goal_prob_density))[0][0]
-			#selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density/sum(in_goal_prob_density))
+			#selected_index=np.where(in_goal_prob_density==np.amax(in_goal_prob_density))[0][0] #(for testing)
+			selected_index = np.random.choice(len(in_goal_prob_density), p=in_goal_prob_density/sum(in_goal_prob_density))
 		else:
 			win=False
-			selected_index=np.where(outside_goal_prob_density==np.amax(outside_goal_prob_density))[0][0]
-			#selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density/sum(outside_goal_prob_density))
+			#selected_index=np.where(outside_goal_prob_density==np.amax(outside_goal_prob_density))[0][0] #(for testing)
+			selected_index = np.random.choice(len(outside_goal_prob_density), p=outside_goal_prob_density/sum(outside_goal_prob_density))
 
 		j = 1 + selected_index//(self.Ny-2)
 		i = 1 + selected_index%(self.Ny-2) # x-coordinate of selected point
 		print(i,j)
         # y-coordinate of selected point
 
-		return (win,i*6,j*6)
+		return (win,i,j)
 	
 	def initialisePsi(self):
 		self.psi = self.psi0() # We initialise the wave function with the Gaussian.   (159*159? wxy)
