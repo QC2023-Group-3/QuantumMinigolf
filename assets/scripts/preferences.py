@@ -1,19 +1,22 @@
 import json
-with open('style.json') as styles: style = json.load(styles)
+with open('style.json') as styles:
+    style = json.load(styles)
+
 
 def customScale():
-	sizing = style["defaults"]
-	scale = style["scale"]
+    sizing = style["defaults"]
+    scale = style["scale"]
 
-	sizing["width"] *= scale
-	sizing["height"] *= scale
-	sizing["particleWidth"] *= scale
+    sizing["width"] *= scale
+    sizing["height"] *= scale
+    sizing["particleWidth"] *= scale
 
-	return sizing
+    return sizing
+
 
 def customResolution(sizing):
-	resolution = style["resolution"]
+    resolution = style["resolution"]
 
-	sizing["Dt"] *= resolution
+    sizing["Dt"] *= resolution
 
-	return sizing
+    return sizing
