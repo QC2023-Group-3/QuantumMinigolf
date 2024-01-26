@@ -26,3 +26,13 @@ def drawBall(surface, ball, particleWidth) -> None:
 			color = tuple(i*currColor for i in COLORS["ballHeatmap"]) # Select which RGB values should be colored
 
 			pygame.draw.rect(surface, color, pygame.Rect(((xPos*particleWidth-(particleWidth/2)), (yPos*particleWidth-(particleWidth/2))), (particleWidth, particleWidth)))
+
+#draw line from centre of ball to mouse position
+def drawPullBack(surface, mouseX, mouseY, ballX, ballY):
+	pygame.draw.line(surface, (255, 255, 255), (ballX, ballY), (mouseX, mouseY), 4)
+
+#draw the goal
+def drawGoal(surface, screenWidth, screenHeight):
+	centerX = screenWidth*4/5
+	centerY = screenHeight/2
+	pygame.draw.circle(surface, (255, 255, 255), (centerX, centerY), 50, 4)

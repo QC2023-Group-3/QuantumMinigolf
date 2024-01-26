@@ -1,5 +1,7 @@
 import pygame # Game Engine
 import json # For styles
+import math #certain math functions
+import numpy as np
 
 # Import mathematical logic behind game
 from assets.logic.ball import ball
@@ -8,6 +10,7 @@ from assets.logic.obstacle import obstacle
 # Import Assets
 from assets.scripts.draw import *
 from assets.scripts.preferences import *
+from assets.scripts.angle import *
 
 
 # MAIN
@@ -35,16 +38,21 @@ if __name__ == "__main__":
 
 	PARTICLEWIDTH = sizing["particleWidth"]
 
-	surface = pygame.display.set_mode((WIDTH,HEIGHT))
+	screen = pygame.display.set_mode((WIDTH,HEIGHT)) #main screen
+	#surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA) #surface to draw transparent object
+
+	def scale(var):
+		var = var * PARTICLEWIDTH - (PARTICLEWIDTH/2)
+		return var
 
 	while True:
-		# Initial selecting direction/paddle of ball
-		selectionComplete = False # If user has made paddle selection yet
+		# Initial selecting of obstacle preset
+		selectionComplete = False # If user has made selection yet
 
-		while not selectionComplete: # Wait for user to make paddle direction selection
-			surface.fill((0,0,0)) # Reset screen
+		while not selectionComplete: # Wait for user to make obstacle selection
+			screen.fill((0,0,0)) # Reset screen
 			obstacles = presetObstacles[presetNum] # Set obstacles to desired preset
-			drawObstacle(surface, obstacles) # Draw obstacles
+			drawObstacle(screen, obstacles) # Draw obstacles
 
 			events = pygame.event.get()
 			for event in events:
@@ -61,15 +69,55 @@ if __name__ == "__main__":
 			pygame.display.flip() # Refresh frame
 
 		# Create ball with desired obstacles
-		gameBall = ball(obstacles, Dt=sizing["Dt"], sigma=sizing["sigma"])
-
+		gameBall = ball(obstacles, 0, Dt=sizing["Dt"], sigma=sizing["sigma"])
+		hit = False
+		dragging = False
+		ballX = (HEIGHT/5)
+		ballY = (WIDTH/2)
 		# Game loop
 		currRound = True
-		while currRound:
-			surface.fill((0,0,0)) # Reset screen
-			drawBall(surface, gameBall, PARTICLEWIDTH)
-			drawObstacle(surface, obstacles) # Draw obstacles
 
+		while not hit:
+			screen.fill((0,0,0)) # Reset screen
+			drawBall(screen, gameBall, PARTICLEWIDTH)
+			drawObstacle(screen, obstacles) # Draw obstacles
+			drawGoal(screen, WIDTH, HEIGHT)
+
+			mouseX = pygame.mouse.get_pos()[0]
+			mouseY = pygame.mouse.get_pos()[1]
+			sqx = (mouseX - ballX)**2
+			sqy = (mouseY - ballY)**2
+			
+			if math.sqrt(sqx + sqy) < 100:
+				inside = True
+			else:
+				inside = False
+
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT: # Allow user to quit
+					exit()
+				elif event.type == pygame.MOUSEBUTTONDOWN:           
+					if inside:
+						dragging = True
+
+				elif event.type == pygame.MOUSEBUTTONUP:
+					if dragging:
+						dragging = False
+						hit = True #end while loop
+						angle = calcAngle((ballX, ballY), (mouseX, mouseY))
+						gameBall = ball(obstacles, angle[0], Dt=sizing["Dt"], sigma=sizing["sigma"])
+			
+			if dragging:
+				drawPullBack(screen, mouseX, mouseY, ballX, ballY) #so that animation continues when no mouse movement is detected
+
+			pygame.display.flip()
+		
+		while currRound:
+			screen.fill((0,0,0)) # Reset screen
+			drawBall(screen, gameBall, PARTICLEWIDTH)
+			drawObstacle(screen, obstacles) # Draw obstacles
+			drawGoal(screen, WIDTH, HEIGHT)
+			
 			events = pygame.event.get()
 			for event in events:
 				if event.type == pygame.QUIT: # Allow user to quit
@@ -79,8 +127,28 @@ if __name__ == "__main__":
 						currRound = False # Stop while loop after user says stop
 
 			gameBall.propagate()
-			gameBall.takeMod()
 
-			pygame.display.flip() # Refresh frame
+			pygame.display.flip() # display frame
 		
-		result, winX, winY = gameBall.measure()
+		gameBall.setGoalCoords((WIDTH*4/5, HEIGHT/2), 50)
+		result, winX, winY = gameBall.measure(gameBall.takeMod(gameBall.psi)) #unsure what to pass into mod_end
+	
+		finX = scale(winX)
+		finY = scale(winY)
+
+		print(finX, finY, winX, winY, result)
+
+		endscreen = True
+		while endscreen:
+			pygame.draw.circle(screen, (0, 255, 0), (finX, finY), 7)
+			drawGoal(screen, WIDTH, HEIGHT)
+
+			events = pygame.event.get()
+			for event in events:
+				if event.type == pygame.QUIT: # Allow user to quit
+					exit()
+				if event.type == pygame.K_RETURN:
+					screen.fill((0,0,0)) # Reset screen
+					endscreen = False
+
+			pygame.display.flip()
