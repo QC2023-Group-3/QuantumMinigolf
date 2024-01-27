@@ -150,10 +150,10 @@ class ball:
         # later.
         prob_density=mod_end.flatten()
         prob_density/=sum(prob_density)
-        selected_index = np.random.choice(
+        '''selected_index = np.random.choice(
                 len(prob_density),
-                p=prob_density)
-        
+                p=prob_density)'''
+        selected_index=np.where(prob_density==np.amax(prob_density))[0][0]
         i = 1 + selected_index % (self.Ny - 2) # transform to x-coordinate of selected point
         j = 1 + selected_index // (self.Ny - 2) # transform to y-coordinate of selected point
         
