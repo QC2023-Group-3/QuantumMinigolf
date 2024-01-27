@@ -148,11 +148,17 @@ class ball:
     def measure(self, mod_end):
         # to record the total amplitude in the whole space, for normalization
         # later.
-        mod_total = 0
-        # calculate the total module of psi in the target area (your goal).
-        mod_goal = 0
-        win = True
-
+        prob_density=mod_end.flatten()
+        prob_density/=sum(prob_density)
+        selected_index = np.random.choice(
+                len(prob_density),
+                p=prob_density)
+        
+        i = 1 + selected_index % (self.Ny - 2) # transform to x-coordinate of selected point
+        j = 1 + selected_index // (self.Ny - 2) # transform to y-coordinate of selected point
+        
+        win = self.checkInGoal(i,j)
+        '''
         in_goal_prob_density = []
         outside_goal_prob_density = []
         for i in range(self.Nx - 2):
@@ -165,6 +171,9 @@ class ball:
                 else:
                     self.outside_goal_coords.append((i, j))
                     outside_goal_prob_density.append(modulus)
+        j = 1 + selected_index // (self.Ny - 2)
+        # x-coordinate of selected point
+        i = 1 + selected_index % (self.Ny - 2)
 
         # The probability to win the game (?)
         probability = mod_goal / mod_total
@@ -190,7 +199,7 @@ class ball:
         j = 1 + selected_index // (self.Ny - 2)
         # x-coordinate of selected point
         i = 1 + selected_index % (self.Ny - 2)
-        print(i, j)
+        print(i, j)'''
     # y-coordinate of selected point
 
         return (win, i, j)
