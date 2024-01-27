@@ -158,8 +158,9 @@ if __name__ == "__main__":
 			for event in events:
 				if event.type == pygame.QUIT:  # Allow user to quit
 					exit()
-				if event.type == pygame.K_RETURN:
-					screen.fill((0, 0, 0))  # Reset screen
-					endscreen = False
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_RETURN:
+						screen.fill((0, 0, 0))  # Reset screen
+						endscreen = False
 
 			pygame.display.flip()
