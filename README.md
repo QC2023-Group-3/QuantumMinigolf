@@ -12,6 +12,7 @@
   - [Customization](#customization)
   - [Contributing](#contributing)
   - [License](#license)
+  - [Acknowledgments](#acknowledgments)
 
 ## Introduction
 
