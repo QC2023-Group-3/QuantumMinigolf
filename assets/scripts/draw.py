@@ -4,14 +4,13 @@ import numpy as np
 
 # Open colors selection
 with open('style.json') as styles:
-    COLORS = json.load(styles)['colors']
-    TEXTFONT = json.load(styles)['textfont']
-    TEXTSIZE = json.load(styles)['textsize']
-    DEFAULTS = json.load(styles)['defaults']
+    styles = json.load(styles)
+    COLORS = styles['colors']
+    TEXTFONT = styles['textfont']
+    TEXTSIZE = styles['textsize']
+    DEFAULTS = styles['defaults']
 
 # Draw obstacles
-
-
 def drawObstacle(surface, obstacles) -> None:
     for obstacle in obstacles:
         pygame.draw.rect(
