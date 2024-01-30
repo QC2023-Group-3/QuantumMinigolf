@@ -25,6 +25,9 @@ if __name__ == "__main__":
 	sizing = customScale()
 	sizing = customResolution(sizing)
 
+	# Get fonts
+	
+
 	# Define Variables
 	# Turn presets into obstacle objects
 	presetObstacles = [[obstacle(*a) for a in i]
@@ -153,6 +156,7 @@ if __name__ == "__main__":
 		while endscreen:
 			pygame.draw.circle(screen, (0, 255, 0), (finX, finY), 7)
 			drawGoal(screen, WIDTH, HEIGHT)
+			drawResult(screen, result)
 
 			events = pygame.event.get()
 			for event in events:

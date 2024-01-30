@@ -4,7 +4,8 @@
 	"duration" : 500,
 	"colors" : {
 		"obstacle" : [255, 255, 255],
-		"ballHeatmap" : [1, 1, 0]
+		"ballHeatmap" : [1, 1, 0],
+		"resultText" : [255, 255, 255]
 	},
 	"obstaclePresets" : [
 		[[280, 0, 320, 200], [280, 400, 320, 594], [280, 250, 320, 350]],
@@ -33,5 +34,7 @@
 		"particleWidth" : 6,
 		"Dt" : 0.005,
 		"sigma" : 0.2
-	}
+	},
+	"textfont" : "Arial",
+	"textsize" : 36
 }

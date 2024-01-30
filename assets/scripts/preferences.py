@@ -20,3 +20,11 @@ def customResolution(sizing):
     sizing["Dt"] *= resolution
 
     return sizing
+
+def customFont(): #?
+    font = style["textfont"]
+    return font
+
+def customFontsize():
+    size = style["textsize"]
+    return size

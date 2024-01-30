@@ -5,6 +5,9 @@ import numpy as np
 # Open colors selection
 with open('style.json') as styles:
     COLORS = json.load(styles)['colors']
+    TEXTFONT = json.load(styles)['textfont']
+    TEXTSIZE = json.load(styles)['textsize']
+    DEFAULTS = json.load(styles)['defaults']
 
 # Draw obstacles
 
@@ -19,6 +22,18 @@ def drawObstacle(surface, obstacles) -> None:
                 obstacle.top,
                 obstacle.width,
                 obstacle.height))
+
+# Draw result
+
+def drawResult(surface, result) -> None:
+    font=pygame.font.Font(TEXTFONT,TEXTSIZE)
+    if result:
+        text=font.render("You Win!", True, COLORS["resultText"])
+    else:
+        text = font.render("You Lose!", True, COLORS["resultText"])
+    text_rect=text.get_rect(center=(DEFAULTS["width"]/2, DEFAULTS["height"]/2))
+    surface.blit(text,text_rect)
+
 
 # Draw the ball
 
