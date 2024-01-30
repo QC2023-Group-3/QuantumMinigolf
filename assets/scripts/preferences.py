@@ -21,7 +21,7 @@ def customResolution(sizing):
 
     return sizing
 
-def customFont(): #?
+def customFont():
     font = style["textfont"]
     return font
 

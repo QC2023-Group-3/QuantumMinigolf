@@ -150,56 +150,20 @@ class ball:
         # later.
         prob_density=mod_end.flatten()
         prob_density/=sum(prob_density)
+        
+        #use this code to switch to randomly select a point
         '''selected_index = np.random.choice(
                 len(prob_density),
                 p=prob_density)'''
+                
+        #use this code to switch to selecting the maximum point
         selected_index=np.where(prob_density==np.amax(prob_density))[0][0]
+        
         i = 1 + selected_index % (self.Ny - 2) # transform to x-coordinate of selected point
         j = 1 + selected_index // (self.Ny - 2) # transform to y-coordinate of selected point
         
         win = self.checkInGoal(i,j)
-        '''
-        in_goal_prob_density = []
-        outside_goal_prob_density = []
-        for i in range(self.Nx - 2):
-            for j in range(self.Ny - 2):
-                modulus = mod_end[i, j]
-                mod_total = mod_total + modulus
-                if (self.checkInGoal(i, j)):
-                    mod_goal = mod_goal + modulus
-                    in_goal_prob_density.append(modulus)
-                else:
-                    self.outside_goal_coords.append((i, j))
-                    outside_goal_prob_density.append(modulus)
-        j = 1 + selected_index // (self.Ny - 2)
-        # x-coordinate of selected point
-        i = 1 + selected_index % (self.Ny - 2)
-
-        # The probability to win the game (?)
-        probability = mod_goal / mod_total
-        random_number = random.random()
-
-        if probability - random_number > 0:
-            win = True
-            # selected_index=np.where(in_goal_prob_density==np.amax(in_goal_prob_density))[0][0]
-            # #(for testing)
-            selected_index = np.random.choice(
-                len(in_goal_prob_density),
-                p=in_goal_prob_density /
-                sum(in_goal_prob_density))
-        else:
-            win = False
-            # selected_index=np.where(outside_goal_prob_density==np.amax(outside_goal_prob_density))[0][0]
-            # #(for testing)
-            selected_index = np.random.choice(
-                len(outside_goal_prob_density),
-                p=outside_goal_prob_density /
-                sum(outside_goal_prob_density))
-
-        j = 1 + selected_index // (self.Ny - 2)
-        # x-coordinate of selected point
-        i = 1 + selected_index % (self.Ny - 2)
-        print(i, j)'''
+        
     # y-coordinate of selected point
 
         return (win, i, j)

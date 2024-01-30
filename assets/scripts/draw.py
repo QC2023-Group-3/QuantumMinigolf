@@ -25,7 +25,7 @@ def drawObstacle(surface, obstacles) -> None:
 # Draw result
 
 def drawResult(surface, result) -> None:
-    font=pygame.font.Font(TEXTFONT,TEXTSIZE)
+    font=pygame.font.SysFont(TEXTFONT,TEXTSIZE)
     if result:
         text=font.render("You Win!", True, COLORS["resultText"])
     else:
