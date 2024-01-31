@@ -2,7 +2,6 @@ import numpy as np
 import math
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import spsolve
-import random
 
 
 class ball:
@@ -148,22 +147,24 @@ class ball:
     def measure(self, mod_end):
         # to record the total amplitude in the whole space, for normalization
         # later.
-        prob_density=mod_end.flatten()
-        prob_density/=sum(prob_density)
-        
-        #use this code to switch to randomly select a point
+        prob_density = mod_end.flatten()
+        prob_density /= sum(prob_density)
+
+        # use this code to switch to randomly select a point
         '''selected_index = np.random.choice(
                 len(prob_density),
                 p=prob_density)'''
-                
-        #use this code to switch to selecting the maximum point
-        selected_index=np.where(prob_density==np.amax(prob_density))[0][0]
-        
-        i = 1 + selected_index % (self.Ny - 2) # transform to x-coordinate of selected point
-        j = 1 + selected_index // (self.Ny - 2) # transform to y-coordinate of selected point
-        
-        win = self.checkInGoal(i,j)
-        
+
+        # use this code to switch to selecting the maximum point
+        selected_index = np.where(prob_density == np.amax(prob_density))[0][0]
+
+        # transform to x-coordinate of selected point
+        i = 1 + selected_index % (self.Ny - 2)
+        # transform to y-coordinate of selected point
+        j = 1 + selected_index // (self.Ny - 2)
+
+        win = self.checkInGoal(i, j)
+
     # y-coordinate of selected point
 
         return (win, i, j)

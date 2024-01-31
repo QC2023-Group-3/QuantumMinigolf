@@ -21,9 +21,11 @@ def customResolution(sizing):
 
     return sizing
 
+
 def customFont():
     font = style["textfont"]
     return font
+
 
 def customFontsize():
     size = style["textsize"]
