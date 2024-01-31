@@ -74,7 +74,7 @@ if __name__ == "__main__":
 			events = pygame.event.get()
 			for event in events:
 				if event.type == pygame.QUIT:  # Allow user to quit
-					exit()
+					raise SystemExit
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_RETURN:  # Finished selection
 						selectionComplete = True  # Stop while loop after finishing everything
@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:  # Allow user to quit
-					exit()
+					raise SystemExit
 				elif event.type == pygame.MOUSEBUTTONDOWN:
 					if inside:
 						dragging = True
@@ -144,7 +144,7 @@ if __name__ == "__main__":
 			events = pygame.event.get()
 			for event in events:
 				if event.type == pygame.QUIT:  # Allow user to quit
-					exit()
+					raise SystemExit
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_RETURN:  # Finished selection
 						currRound = False  # Stop while loop after user says stop
@@ -169,7 +169,7 @@ if __name__ == "__main__":
 			events = pygame.event.get()
 			for event in events:
 				if event.type == pygame.QUIT:  # Allow user to quit
-					exit()
+					raise SystemExit
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_RETURN:
 						screen.fill((0, 0, 0))  # Reset screen
