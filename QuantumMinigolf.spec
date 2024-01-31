@@ -5,7 +5,7 @@ a = Analysis(
     ['start.py'],
     pathex=[],
     binaries=[],
-    datas=[ ('style.json', '.') ],
+    datas=[('style.json', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
