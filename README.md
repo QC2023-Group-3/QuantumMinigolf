@@ -9,6 +9,7 @@
 - [Quantum Game](#quantum-game)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Requirements](#requirements)
   - [Customization](#customization)
   - [Compiling](#compiling)
   - [Contributing](#contributing)
@@ -20,6 +21,12 @@
 Quantum Minigolf reinvents the traditional game of minigolf by incorporating quantum mechanics principles, featuring a golf ball with quantum behavior distinct from classical physics. Developed through basic Python programming, this project serves as a simulation to demonstrate an in-depth understanding of quantum phenomena. It exemplifies the application of complex quantum concepts in a familiar setting, providing an engaging and educational tool for exploring the fundamentals of quantum mechanics.
 
 For more information, feel free to access our presentation [here](https://docs.google.com/presentation/d/1osrnnlPmUpl-J32xCmQgU0M5aouOlaEZ45TGqRgsdBw/edit?usp=sharing).
+
+## Requirements
+
+We have used Python version `3.12.0`, however any version of Python over `3.10.0` should work.
+
+In terms of library requirements, please check our [requirements.txt](https://github.com/QC2023-Group-3/QuantumMinigolf/blob/main/requirements.txt) file.
 
 ## Customization
 
