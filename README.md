@@ -17,7 +17,7 @@
 
 ## Introduction
 
-Quantum Minigolf reinvents the traditional game of minigolf by incorporating quantum mechanics principles, featuring a golf ball with quantum behavior distinct from classical physics. Developed through sophisticated Python programming, this project serves as a simulation to demonstrate an in-depth understanding of quantum phenomena. It exemplifies the application of complex quantum concepts in a familiar setting, providing an engaging and educational tool for exploring the fundamentals of quantum mechanics.
+Quantum Minigolf reinvents the traditional game of minigolf by incorporating quantum mechanics principles, featuring a golf ball with quantum behavior distinct from classical physics. Developed through basic Python programming, this project serves as a simulation to demonstrate an in-depth understanding of quantum phenomena. It exemplifies the application of complex quantum concepts in a familiar setting, providing an engaging and educational tool for exploring the fundamentals of quantum mechanics.
 
 For more information, feel free to access our presentation [here](https://docs.google.com/presentation/d/1osrnnlPmUpl-J32xCmQgU0M5aouOlaEZ45TGqRgsdBw/edit?usp=sharing).
 
