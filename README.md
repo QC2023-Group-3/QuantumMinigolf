@@ -10,6 +10,7 @@
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Requirements](#requirements)
+  - [Installation](#installation)
   - [Customization](#customization)
   - [Compiling](#compiling)
   - [Contributing](#contributing)
@@ -33,6 +34,12 @@ Below are some demonstration GIFs of the game:
 We have used Python version `3.12.0`, however any version of Python over `3.10.0` should work.
 
 In terms of library requirements, please check our [requirements.txt](https://github.com/QC2023-Group-3/QuantumMinigolf/blob/main/requirements.txt) file.
+
+## Installation
+
+To install the game, you can either download the source code and run it through Python, or you can download the executable from the [releases](https://github.com/QC2023-Group-3/QuantumMinigolf/releases/latest) page.
+
+If you wish to compile the file yourself, please see the [Compiling](#compiling) section.
 
 ## Customization
 
