@@ -23,7 +23,10 @@ Quantum Minigolf reinvents the traditional game of minigolf by incorporating qua
 For more information, feel free to access our presentation [here](https://docs.google.com/presentation/d/1osrnnlPmUpl-J32xCmQgU0M5aouOlaEZ45TGqRgsdBw/edit?usp=sharing).
 
 Below are some demonstration GIFs of the game:
-![Double Slit Demo](https://github.com/QC2023-Group-3/QuantumMinigolf/blob/main/assets/demo/Demo%201.gif) ![Horizontal Tunnel Demo](https://github.com/QC2023-Group-3/QuantumMinigolf/blob/main/assets/demo/Demo%202.gif)
+<p float="left">
+  <img src="/assets/demo/Demo 1.gif" width="49%" />
+  <img src="/assets/demo/Demo 2.gif" width="49%" /> 
+</p>
 
 ## Requirements
 
