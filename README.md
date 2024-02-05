@@ -10,6 +10,7 @@
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Customization](#customization)
+  - [Compiling](#compiling)
   - [Contributing](#contributing)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
@@ -33,9 +34,18 @@ If you want to customize styling, speed, etc, feel free to change the parameters
 | `obstaclePresets` | Presets/obstacles you can initially choose from |
 | `defaults` | The default values for the game (Recommended not to change) |
 
+## Compiling
+
+To compile the program into an executable, we used [PyInstaller](https://pyinstaller.org/en/stable/). We have actually created a `.spec` file for those of you who wish to compile it yourselves.
+
+The following is a step-by-step guide if you wish to compile it youself:
+1. Install PyInstaller with `pip install PyInstaller`
+2. Run PyInstaller with `PyInstaller QuantumMinigolf.spec` *Note that capitalization is very important*
+3. After running, the executable should be locatable in the `build` folder.
+
 ## Contributing
 
-If you want to contribute to this project, please follow the guidelines below:
+If you want to cont.ribute to this project, please follow the guidelines below:
 
 1. Fork the repository
 2. Create a new branch for your changes
