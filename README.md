@@ -1,6 +1,15 @@
 # <div align="center">Quantum Minigolf</div>
 
-<div align="center"><i>A Unique Simulation Blending Minigolf with Quantum Physics Principles.</i></div>
+<div align="center"><i>A Unique Simulation Blending Minigolf with Quantum Physics Principles.</i></div>  
+
+<p/>
+  
+<p align="center">
+<a href="https://github.com/QC2023-Group-3/QuantumMinigolf/releases/latest/"><img src="https://img.shields.io/badge/release-v1.0.0-green"></a>
+<a href="https://www.python.org/"><img src="https://img.shields.io/badge/language-Python-blue"></a>
+<a href="https://github.com/QC2023-Group-3/QuantumMinigolf/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue"></a>
+<a href="https://www.python.org/downloads/release/python-3120/"><img src="https://img.shields.io/badge/Python-v3.12.0-blue"></a>
+</p>
 
 ***
 
