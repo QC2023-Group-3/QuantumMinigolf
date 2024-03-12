@@ -78,7 +78,7 @@ The following is a step-by-step guide if you wish to compile it youself:
 
 ## Contributing
 
-If you want to cont.ribute to this project, please follow the guidelines below:
+If you want to contribute to this project, please follow the guidelines below:
 
 1. Fork the repository
 2. Create a new branch for your changes
