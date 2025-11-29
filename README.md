@@ -99,6 +99,7 @@ We would like to thank the following people and organizations for their support 
 - [Valentina Banner](https://valentinabanner.com/) for contributing code for the game logic and the game UI, and helping co-create the presentation.
 - [Madelyn Lee](https://github.com/madness118/) for contributing code for the game logic and the game UI, and helping co-create the presentation.
 - [Annie Qin](https://github.com/annieqqa/) for contributing code for the mathematics the game relies on, and helping co-create the presentation.
+- [Alicia Yuen](https://github.com/Alicia1234567891) for contributing code for the mathematics the game relies on, and helping co-create the presentation.
 - [HKUST](https://hkust.edu.hk/) for providing not only the opportunity to create this project, but the opportunity to present it.
 
 We are grateful for the support of our community and for the contributions of everyone who has helped make this project what it is.
